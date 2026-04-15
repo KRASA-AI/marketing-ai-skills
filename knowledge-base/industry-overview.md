@@ -30,6 +30,9 @@ AI tools are most effective in marketing & advertising for:
 - **Synthetic audience testing** — Using AI-generated personas to pressure-test creative, messaging, and positioning before committing to paid media or real-user research
 - **Creative briefing automation** — Translating informal campaign requests into structured briefs that designers, agencies, and AI tools can all execute against
 - **Cross-channel attribution sense-making** — Moving past last-click reporting to incrementality-aware budget decisions, including overlap, assisted roles, and measurement upgrade paths
+- **Predictive lifecycle and retention programs** — AI-driven propensity scoring and signal-combining (RFM + recency-decay + behavioral) that triggers onboarding, engagement, at-risk saves, win-back, and loyalty flows before churn shows up in the churn report
+- **Creator and UGC briefing** — Structured briefs that preserve creator voice while enforcing disclosure, claim evidence, and usage-rights guardrails; applies to human creators and AI UGC generators alike
+- **Topical-authority content planning** — Building hub-and-spoke pillar/cluster structures that consolidate cannibalizing keywords, surface direct-answer blocks for AI engines, and compound authority over a quarter-plus horizon
 
 ## 2026 Emerging Trends
 
@@ -42,6 +45,10 @@ AI tools are most effective in marketing & advertising for:
 - **Narrative analytics** — Natural language data interpretation replacing raw dashboards, enabling broader team participation in data-driven decisions
 - **AI-aware content strategy** — Structuring content for both human readers and AI browser assistants that mediate web experiences
 - **Prompts as micro-workflow architecture** — Teams increasingly treat prompts as reusable workflow building blocks (context + scope + instruction + format), chained into multi-step agent processes rather than one-off chat requests
+- **Agentic marketing mix modeling** — Chat-native MMM layers that wrap Bayesian models in a GenAI interface, letting non-analysts ask budget-allocation and incrementality questions directly; real-time MMM is replacing weekly refresh cycles at mid-market and enterprise tiers
+- **AI-assisted PR and journalist outreach** — Three-stage workflows (trend sensing → pitch drafting → human-authenticated relationship building) that trade volume for precision as pitch response rates continue to decline
+- **AI UGC as scalable creative test inventory** — Prompt-engineered, anti-polish video generators producing creator-style ads for paid testing at a fraction of traditional UGC cost, paired with human creators for top-performing variants
+- **Reusable skill packages (e.g., Claude Skills, Slackbot skills)** — Marketing teams packaging SOPs, brand guidelines, and workflows as portable skills that multiple AI systems can load, reducing prompt duplication across teams and tools
 
 ## Learn More
 
