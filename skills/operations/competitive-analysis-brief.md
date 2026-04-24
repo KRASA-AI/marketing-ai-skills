@@ -4,7 +4,7 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~90 min/brief"
-version: 2.0
+version: 2.1
 last_eval_score: null
 ---
 
@@ -105,6 +105,89 @@ You are a competitive-intelligence strategist's AI assistant. Your job is to tur
 - Uses the user's company positioning from config as the baseline
 - Saved to `outputs/` if the user confirms
 
+## Calibration Notes
+
+- Positioning maps are tools for *argument*, not *truth*. The axis choice is the highest-leverage decision in the whole exercise. If one axis is "has an AI feature," you have produced a competitor comparison, not a positioning map. Pick axes that cost the competitor a trade-off to switch.
+- Threat-score rankings drift. A competitor that was #4 on threat six months ago is often #2 today because of a funding round, a product velocity change, or an analyst placement. Re-run at least quarterly and diff against the prior score explicitly.
+- Resist the "everyone is a threat" collapse. If the brief lists 7 competitors all at threat score 4, it is not yet a brief. Force-rank to a top 2–3.
+- The "customer love" signal on G2 / Capterra is usually stronger than feature breadth as a predictor of churn threat. Weight review sentiment and NPS signals higher than raw review count.
+- Do not conflate market leader with threat leader. The largest competitor is sometimes slow enough to be the easiest to attack. The #3 challenger closing fast is often the bigger medium-term threat.
+- A research gap is not a failure — it is a deliverable. If pricing is not disclosed, the brief's job is to *say* it is not disclosed and name what would close the gap (RFP bid, analyst call, win/loss interview), not to guess.
+- AI-engine citation share is now a viable competitive signal. Run the **AI Search Visibility Audit** skill first and bring its Share-of-Model numbers into the brief; a competitor citing 3× more often in ChatGPT on category-leader questions is a pipeline threat even if their site traffic looks flat.
+- Avoid static feature checklists. Feature parity is table stakes in 2026; the threat story lives in proof stack depth, category language, and channel presence — not in a ✅ / ❌ grid.
+
 ## Example Output
 
-> [This section will be populated by the eval system with a reference example. For now, run the skill with sample input to see output quality.]
+### Competitor Snapshot — "Acme Analytics" (sample)
+
+- **Who they are:** Seed-stage (raised $12M Series A in Feb 2026), 40 employees, HQ Austin, shipped in 2023.
+- **Positioning (theirs):** "Revenue intelligence for the unfair advantage."
+- **Target segment:** Mid-market B2B SaaS, 50–500 employees, RevOps-led purchase.
+- **GTM motion:** Product-led with sales assist above $25k ACV. Free tier gated at 5 seats.
+
+### Messaging Teardown
+
+| Dimension | Acme Analytics | Our company |
+|---|---|---|
+| Hero promise | "Revenue intelligence for the unfair advantage" | "Unified pipeline reporting in 14 days" |
+| Top 3 value props | Speed-to-insight, CRM-native install, AI-powered recommendations | Data lineage, Salesforce-native, fast deployment |
+| Proof stack | 3 named mid-market logos, 2 G2 badges, 1 analyst inclusion | 5 named logos, Salesforce ISV listing, 1 case study |
+| Emotional hook | Aspiration + urgency ("unfair advantage") | Relief + competence ("you'll look good in QBR") |
+| Language signatures | "Revenue intelligence," "predictive pipeline" | "Unified pipeline," "clean data lineage" |
+
+### Positioning Map (Self-serve ↔ Sales-led × Narrow-vertical ↔ Horizontal)
+
+```
+                    Sales-led
+                       ↑
+       [LegacyCo]      |     [Enterprise Inc.]
+                       |
+Narrow ←———————————————+——————————————————→ Horizontal
+                       |
+       [Us]            |     [Acme Analytics]
+                       |     [ChallengerBrand]
+                       ↓
+                   Self-serve
+```
+White space: narrow-vertical × self-serve quadrant is uncontested. This is the opportunity the brief recommends defending and owning.
+
+### Threat-Score Ranking
+
+| Competitor | Brand | Product | Sales muscle | Customer love | Momentum | Weighted threat |
+|---|---|---|---|---|---|---|
+| Acme Analytics | 3 | 4 | 3 | 4 | 5 | 3.8 |
+| Enterprise Inc. | 5 | 4 | 5 | 3 | 2 | 3.8 |
+| ChallengerBrand | 2 | 3 | 2 | 4 | 4 | 3.0 |
+| LegacyCo | 5 | 3 | 5 | 2 | 1 | 3.2 |
+
+### Strategic Response (3–5 actions)
+
+1. **Attack — Acme's speed claim.** Publish a named-customer "14-day deployment" case study with a video quote. Owner: Marketing. First experiment: landing page hero test against control, 4-week window.
+2. **Defend — Salesforce-native positioning.** Acme markets as "CRM-native;" we have the deeper integration. Add AppExchange badge above the fold and a ranked partner listing. Owner: Product Marketing + BD.
+3. **Differentiate — Own "clean data lineage" language.** Neither Acme nor Enterprise Inc. credibly claim lineage. Build a pillar page + audit-ready proof and feed it to the Topic Cluster Planner.
+4. **Avoid — ChallengerBrand's price war.** They are racing to the bottom on freemium. Holding pricing firm and differentiating on service is the defensible posture.
+5. **Watch — Acme's momentum.** 3.8 weighted threat driven mostly by momentum (5/5). If hiring slows or funding stalls, threat drops. Revisit in 60 days.
+
+### Research Gaps
+- Pricing above Acme's $49/seat published tier is not disclosed — close via win/loss interviews
+- Acme's ad spend scale is inferred from SpyFu estimates (confidence: medium); confirm with Meta Ad Library + paid-SERP scrape
+- NPS signal for Enterprise Inc. is based on 18 recent G2 reviews — a thin sample; flag as low confidence
+
+## Integration Notes
+
+- **Pair with AI Search Visibility Audit** — competitor SoM becomes the strongest modern threat signal; route gaps into this brief.
+- **Pair with Persona & ICP Builder** — positioning axes should be drawn in terms that matter to the ICP, not to the product team.
+- **Pair with Topic Cluster Planner** — white-space messaging opportunities become content-territory assignments.
+- **Feed into Ad Copy Variations** — attack angles become A/B test copy directly.
+- **Feed into Battlecard workflow (sales enablement)** — threat ranking + attack / defend / differentiate / avoid framework is the spine of a sales battlecard.
+- **Escalate to Brand Safety & Crisis Response Planner** — if a competitor is running negative-framing comparison content against our brand in paid channels, that is a tier-2 monitoring signal.
+
+## Anti-Patterns to Avoid
+
+- Feature-matrix grids presented as strategy
+- Axes on the positioning map that both slide toward "we are better"
+- Ranking all competitors evenly to avoid picking a fight
+- Quoting a competitor's hero claim as proof they are winning the category (claims are cheap, proof is scarce)
+- Citing pricing as "public" when it was only inferred from a sales demo
+- Skipping the research-gaps section (the brief's credibility dies if every claim is presented as known)
+- Writing for the executive audience and forgetting that sales will use the same brief in the field — add a battlecard-style one-pager if sales is an audience
