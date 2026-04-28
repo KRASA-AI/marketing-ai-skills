@@ -4,7 +4,7 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~60 min/guide"
-version: 1.0
+version: 2.0
 last_eval_score: null
 ---
 
@@ -22,11 +22,16 @@ Use this skill when establishing brand guidelines for a new company, refreshing 
 
 Provide the following:
 
-1. **Brand samples** — 3-5 examples of content that sounds "right" for your brand (emails, social posts, web copy, ads)
-2. **Anti-examples** (optional) — Content that does NOT sound like your brand
+1. **Brand samples** — 3–5 examples of content that sounds "right" for your brand (emails, social posts, web copy, ads). Aim for variety: at least one short-form (subject line / social post) and one long-form (web copy / blog)
+2. **Anti-examples** — 2–3 pieces of content that do NOT sound like your brand. This is the highest-signal input; without it the model will infer voice attributes from samples alone and confidence will be flagged `medium`
 3. **Brand values** — Core company values and mission
-4. **Target audience** — Who you're primarily speaking to
-5. **Competitive context** — How you want to sound different from competitors
+4. **Target audience** — Who you're primarily speaking to (ideally a named persona from `outputs/personas/`)
+5. **Competitive context** — How you want to sound different from competitors. Name 2–3 competitor brand voices and one phrase you'd never want to be confused with
+6. **Founder / leadership voice cues, if any** — Founder posts, internal Slack messages, or all-hands clips often carry the truest version of the voice and should be flagged when they conflict with marketing-team output
+
+### Minimum Viable Input
+
+If only fields 1, 3, and 4 are provided, the skill produces a `confidence: medium` guide with explicit "voice claims to validate before adoption" listed at the top. The AI prompt preamble is still produced but flagged as a v0 to be sharpened after a sample-vs-anti-sample test.
 
 ## Instructions
 
@@ -76,17 +81,197 @@ You are a skilled brand strategist's AI assistant specializing in voice and tone
    - Ad copy principles
    - Customer support tone
 
-3. Create a quick-reference cheat sheet (one page) for daily use
+3. **Voice-drift detection rule.** Define the failure mode the team will use to spot AI-generated or off-brand content. Examples: "uses 'leverage' as a verb," "starts a sentence with 'In today's fast-paced world,'" "stacks three adjectives in a row," "lists bullet points where prose belongs."
+
+4. **Validation test.** Run the AI prompt preamble end-to-end:
+   - Generate one sample paragraph for each of three contexts (web headline, support reply, paid-social caption)
+   - Score each against the in-voice / off-voice attribute table on a 1–5 anchored scale (3 = "could be us, could be a competitor — neither obviously wrong nor obviously right")
+   - If any sample scores < 4, refine the preamble before shipping
+
+5. Create a quick-reference cheat sheet (one page) for daily use
 
 **Output requirements:**
 - Full style guide document with clear sections and examples
 - One-page cheat sheet for quick reference
-- AI prompt preamble ready to paste into any tool
-- "This vs. That" comparison table with in-voice and off-voice examples
+- AI prompt preamble ready to paste into any tool, with sample paragraphs and 1–5 attribute scores
+- "This vs. That" comparison table with in-voice and off-voice examples (minimum 8 rows)
+- Voice-drift detection rules (3–5 named failure modes)
+- Confidence flag (high / medium / low) based on input completeness
 - Professional formatting appropriate for marketing & advertising
 - Ready to share with the entire team
-- Saved to `outputs/` if the user confirms
+- Saved to `outputs/brand-voice/` if the user confirms
+
+## Calibration Notes
+
+- **Anti-examples are the most valuable input.** Three brand samples with three anti-samples produces a sharper guide than ten brand samples alone. The anti-sample shows the model the boundary, not just the center.
+- **Voice = consistent attributes; tone = situational dial.** Voice doesn't change between a celebratory launch tweet and a service-outage apology — tone does. If a "voice attribute" varies by situation, it's actually tone and belongs in the spectrum, not the always-list.
+- **Three to five attributes is the right count.** Two attributes is a vibe, six+ is a wishlist no one will remember. Force-rank to 3–5. If a candidate attribute doesn't have an in-voice/off-voice example pair, it doesn't make the cut.
+- **The AI prompt preamble is the deliverable.** In 2026 most content is AI-assisted. A voice guide that doesn't ship a working preamble is a museum piece — it'll be ignored within a quarter.
+- **Founder voice usually trumps "brand voice" the first time they conflict.** When marketing-team copy reads sanitized vs. founder posts that read alive, the founder voice almost always tests better. Surface the conflict in the guide rather than papering over it.
+- **Refresh cadence:** Voice guide every 18 months minimum, sooner if positioning, ICP, or category language shifts. Re-test the preamble against the latest model versions every 6 months — phrasing that worked in GPT-4 may produce different output in Claude 4.6 / Gemini 3.
+- **Inclusive-language section is not optional in 2026.** Disability-first language, gender-neutral defaults, and culturally-specific pitfalls should be named, not waved at.
+
+## Anti-Patterns
+
+- **Adjective soup** — "We're bold, innovative, customer-first, authentic, transparent, and human" describes 90% of B2B brands. If three competitors could claim the same six attributes, you don't have a voice yet.
+- **The mission-statement preamble** — "You are an AI writing assistant for [Company], a leading provider of [category]…" is the failure mode. It produces generic copy. The preamble must include verbatim sample sentences, banned phrases, and a 1–5 scoring rule the AI tool can self-check against.
+- **Voice = founder's resume** — "We sound like our CEO" without sample artifacts is a guide no one can apply. Capture the literal phrasing.
+- **No anti-examples** — A guide that only says "we sound friendly" without examples of the friendliness it isn't (sycophantic, performative, faux-casual) cannot be enforced.
+- **Frozen at v1.0** — voice ages out. Add an explicit "next review" date.
+- **Channel-blind** — One voice spec for every channel produces awkward TikTok captions and bizarre LinkedIn posts. The channel section is mandatory.
+
+## Integration Notes
+
+- **Persona & ICP Builder** (`outputs/personas/`) — Persona's "verbatim language" and "language they avoid" fields seed the brand-voice vocabulary lists. Where they conflict, persona language wins for buyer-facing copy; brand voice wins for company-led narrative.
+- **Creative Brief Generator** — The AI prompt preamble produced here is the canonical voice block embedded in every creative brief.
+- **Blog Post Outliner** — The voice attributes feed the writer-instruction section of every outline.
+- **Multi-Channel Content Repurposer** — The channel-specific guidelines section is the input for tone shifts between LinkedIn vs. TikTok vs. email.
+- **Synthetic Persona Simulator** — Voice attributes appear in the simulator's credibility-layer reaction ("does this sound like the company in their voice samples or like generic vendor speak?").
+- **Ad Copy Variations** — Banned-phrase list is enforced as a final-pass filter on generated ad variants.
+- **PR Pitch Builder** — Founder-voice cues feed quote drafting and approved-quote sheet language.
 
 ## Example Output
 
-> [This section will be populated by the eval system with a reference example. For now, run the skill with sample input to see output quality.]
+### Input Recap
+- Brand: "Threadline" — B2B SaaS for engineering managers; sells team retros and signal aggregation
+- Brand samples: launch announcement (web), 4-tweet thread, support reply, founder post-mortem
+- Anti-examples: a 2025 generic vendor blog ("In today's fast-paced world…"), a competitor's overly-casual launch post, a sanitized internal comms email
+- Confidence: `high`
+
+---
+
+### Voice Attributes (The "Always" List)
+
+| # | Attribute | Sounds Like | Doesn't Sound Like |
+|---|-----------|-------------|--------------------|
+| 1 | **Plainspoken** | "Retros that don't need a facilitator." | "Revolutionary AI-powered retrospective platform." |
+| 2 | **Specific over clever** | "We cut retro prep from 45 minutes to 6." | "We make retros 10x better." |
+| 3 | **Engineer-respectful** | Names the tradeoff. Cites the source. Links the change-log. | Promises "magic." Hides the rough edge. |
+| 4 | **Quietly confident** | "Here's how it works. Here's where it breaks. You decide." | "The future of engineering productivity is here." |
+
+---
+
+### Tone Spectrum
+
+| Situation | Tone Adjustment |
+|-----------|-----------------|
+| Launch announcement | Plainspoken + slightly proud; lead with the user outcome, not the feature |
+| Support reply (issue) | Direct, fix-first, no apology theater; one-sentence acknowledgment, then the fix |
+| Outage post-mortem | Timeline + cause + what we changed + what we owe you; no defensiveness |
+| Sales page | Specific over clever; case-study sentence per claim |
+| Social (LinkedIn) | Founder-voice okay; thread > image post |
+| Social (X/Twitter) | One sharp idea per post; no threading clichés |
+
+---
+
+### Language Rules
+
+**Preferred vocabulary:** retro, signal, blocker, change-log, tradeoff, ship, blast radius, engineering manager (not "EM lead" or "people manager"), team, on-call
+
+**Banned vocabulary** (with alternatives):
+- "Leverage" → "use"
+- "Best-in-class" → cite a specific comparison
+- "Solution" → "tool" or name the thing
+- "Empower" → name what specifically the user can now do
+- "Synergy" → never
+- "Seamless" → "no manual step required"
+- "Revolutionize / disrupt / unleash" → never
+- "Thought leader" → never about ourselves
+
+**Grammar:** Oxford comma yes. Contractions yes. Em dashes yes (sparingly). Em dash spacing: spaces on both sides — like this — not jammed.
+
+**Inclusive language:**
+- Use "they/them" as default pronoun for unspecified roles
+- Avoid "guys" in plural address; use "team" or "y'all"
+- Never reference offshore/onshore as quality proxies
+- Disability-first phrasing where relevant (no "crippled," "blind to," etc.)
+
+---
+
+### AI Prompt Preamble (ready to paste)
+
+```
+You are writing for Threadline, a B2B tool for engineering managers (retros + signal aggregation).
+
+VOICE: Plainspoken. Specific over clever. Engineer-respectful. Quietly confident.
+
+ALWAYS:
+- Name the user outcome before the feature.
+- Cite a number or source when you make a claim.
+- Acknowledge the tradeoff or rough edge.
+- Use contractions. Oxford commas. Em dashes with spaces — like this.
+
+NEVER USE: leverage, best-in-class, solution (use "tool"), empower, synergy, seamless, revolutionize, disrupt, unleash, thought leader, "in today's fast-paced world."
+
+EXAMPLES (in-voice):
+- "Retros that don't need a facilitator."
+- "We cut retro prep from 45 minutes to 6 — n=82 teams, FY26."
+- "Here's how it works. Here's where it breaks. You decide."
+
+EXAMPLES (off-voice — DO NOT WRITE LIKE THIS):
+- "Revolutionary AI-powered platform that empowers EM leads to leverage retros."
+- "In today's fast-paced engineering world, blockers are everywhere."
+
+SCORING RULE: After drafting, rate each sentence 1–5 against the voice. 3 = could be us or a competitor; 4 = clearly us; 5 = pull-quote-worthy. If any sentence < 4, rewrite.
+```
+
+**Validation test:**
+- Web headline sample: "Retros that don't waste an hour you don't have." → score 5
+- Support reply sample: "Got it — that's a known issue with the GitHub webhook config. The fix is in the next deploy (Thu). Workaround in the change-log." → score 4
+- Paid-social sample: "Your retros, three minutes shorter and twice as honest." → score 4
+
+---
+
+### "This vs. That" Comparison
+
+| In-voice | Off-voice |
+|----------|-----------|
+| "We cut retro prep from 45 minutes to 6." | "We supercharge retrospective efficiency." |
+| "Here's where it breaks." | "It's a seamless experience." |
+| "Engineering managers." | "EM leads." or "People-of-the-engineers." |
+| "Here's the tradeoff." | "We've reimagined the retrospective." |
+| "Tool" | "Solution" |
+| "Use" | "Leverage" |
+| "Ship" | "Deliver value" |
+| "Blocker" | "Bottleneck challenge" |
+
+---
+
+### Voice-Drift Detection Rules
+
+If any of these appear, the content is off-brand and should be rewritten before shipping:
+1. Sentence opens with "In today's [X] world" or any climate-of-the-era preamble
+2. Three or more adjectives stacked in front of a noun
+3. Any banned word appears (especially "leverage," "synergy," "seamless")
+4. A claim without a number, source, or named example
+5. The word "we" appears more than 3x in 100 words without a corresponding "you"
+
+---
+
+### Channel-Specific Guidelines
+
+| Channel | Voice/Tone Notes |
+|---------|------------------|
+| Website | Plainspoken; lead with outcome; one specific example per section |
+| Email (transactional) | Two sentences max; no "we hope this email finds you well" |
+| Email (marketing) | One idea per email; no "discover the X of Y" headlines |
+| LinkedIn | Founder-voice okay; thread format; comment-bait questions allowed |
+| X/Twitter | Sharp; one idea per post; no thread theater |
+| Support | Fix-first, then context; "thanks for flagging" not "we sincerely apologize" |
+| Ad copy | Specific over clever; lead with a number when possible |
+| Documentation | Engineer-to-engineer; no "magic"; show the tradeoff |
+
+---
+
+### Cheat Sheet (for printing)
+
+> **Threadline voice in 12 words:** Plainspoken. Specific over clever. Engineer-respectful. Quietly confident. Show the tradeoff.
+
+> **Banned today:** leverage, best-in-class, solution, empower, synergy, seamless, revolutionize, disrupt, unleash, thought leader, "in today's fast-paced world."
+
+> **The 1–5 test:** If your sentence scores below a 4 against the voice, rewrite it.
+
+---
+
+### Refresh Date
+Voice guide: re-validate 2027-10-24 (18 months). Preamble re-test against latest model versions: 2026-10-24 (6 months — model behavior shifts faster than the guide).
