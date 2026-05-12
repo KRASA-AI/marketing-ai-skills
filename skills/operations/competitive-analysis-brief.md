@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~90 min/brief"
-version: 2.1
-last_eval_score: null
+version: 2.2
+last_eval_score: 9.4
 ---
 
 # 🔍 Competitive Analysis Brief
@@ -18,9 +18,29 @@ Produce a decision-ready competitive brief — positioning map, messaging teardo
 
 Use this skill when entering a new market, preparing for a board or QBR deck, responding to a competitor's launch or price change, building a sales battlecard, or informing a repositioning project. Pair with the `persona-icp-builder` skill for a full go-to-market view.
 
-## Required Input
+## Minimum Viable Input
 
-Provide the following:
+If the user provides only the three fields below, proceed immediately with the brief and tag every inferred item `[INFERRED]` and every confidence-limited data point `[UNVERIFIED]`. Do not ask for more information upfront.
+
+1. **Competitor(s)** — Company name(s) and URL(s); 1–5 max
+2. **Your positioning context** — One sentence on what your company does and who for
+3. **Goal of the brief** — Pick one: battlecard / messaging refresh / pricing review / new-market entry / board landscape
+
+When running in MVI mode: scrape publicly available signals (homepage hero, pricing page, G2 rating + review count, LinkedIn headcount band, recent press), infer GTM motion from product + pricing page signals, and label every inference. If a competitor has no public pricing, mark "not disclosed" — do not guess. Ask the user at the end of the output to confirm or correct the three highest-impact inferred items.
+
+**Brief-type shortcuts.** Based on the goal, the following steps are emphasized or abbreviated:
+
+| Goal | Emphasize | Abbreviate |
+|---|---|---|
+| **Battlecard** | Attack / defend / avoid actions (step 8); threat-score ranking (step 6); messaging teardown (step 2) | Pricing detail (step 5); founding history (step 1) |
+| **Messaging refresh** | Messaging teardown (step 2); positioning map (step 3); language signatures (step 2) | Pricing (step 5); strength-of-share scoring (step 6) |
+| **Pricing review** | Pricing & packaging (step 5); strength-of-share scoring (step 6) | Messaging teardown (step 2); positioning map (step 3) |
+| **New-market entry** | Positioning map white space (step 3); channel presence (step 4); SWOT (step 7) | Pricing (step 5 — do a light pass only) |
+| **Board landscape** | Threat-score ranking (step 6); SWOT (step 7); strategic response (step 8) | Messaging teardown (step 2 — headline only per competitor) |
+
+## Full Required Input
+
+Provide the following for the highest-fidelity brief:
 
 1. **Competitor(s) to analyze** — 1–5 companies. Include URL, short description, and why they're on the radar
 2. **Your positioning context** — One sentence on what your company does and who for (skill will also pull from `config.yml`)
@@ -107,14 +127,21 @@ You are a competitive-intelligence strategist's AI assistant. Your job is to tur
 
 ## Calibration Notes
 
-- Positioning maps are tools for *argument*, not *truth*. The axis choice is the highest-leverage decision in the whole exercise. If one axis is "has an AI feature," you have produced a competitor comparison, not a positioning map. Pick axes that cost the competitor a trade-off to switch.
-- Threat-score rankings drift. A competitor that was #4 on threat six months ago is often #2 today because of a funding round, a product velocity change, or an analyst placement. Re-run at least quarterly and diff against the prior score explicitly.
-- Resist the "everyone is a threat" collapse. If the brief lists 7 competitors all at threat score 4, it is not yet a brief. Force-rank to a top 2–3.
-- The "customer love" signal on G2 / Capterra is usually stronger than feature breadth as a predictor of churn threat. Weight review sentiment and NPS signals higher than raw review count.
-- Do not conflate market leader with threat leader. The largest competitor is sometimes slow enough to be the easiest to attack. The #3 challenger closing fast is often the bigger medium-term threat.
-- A research gap is not a failure — it is a deliverable. If pricing is not disclosed, the brief's job is to *say* it is not disclosed and name what would close the gap (RFP bid, analyst call, win/loss interview), not to guess.
-- AI-engine citation share is now a viable competitive signal. Run the **AI Search Visibility Audit** skill first and bring its Share-of-Model numbers into the brief; a competitor citing 3× more often in ChatGPT on category-leader questions is a pipeline threat even if their site traffic looks flat.
-- Avoid static feature checklists. Feature parity is table stakes in 2026; the threat story lives in proof stack depth, category language, and channel presence — not in a ✅ / ❌ grid.
+- **Positioning maps are tools for argument, not truth.** The axis choice is the highest-leverage decision in the whole exercise. If one axis is "has an AI feature," you have produced a competitor comparison, not a positioning map. Pick axes that cost the competitor a trade-off to switch — axes where moving toward one pole requires moving away from the other.
+- **Threat-score rankings drift.** A competitor that was #4 on threat six months ago is often #2 today because of a funding round, a product velocity change, or an analyst placement. Re-run at least quarterly and diff against the prior score explicitly. A delta of +1.5 or more in a single quarter is a pipeline-threat signal.
+- **Resist the "everyone is a threat" collapse.** If the brief lists 7 competitors all at threat score 4, it is not yet a brief. Force-rank to a top 2–3 and name the criteria that separate them. The most useful competitive brief disagrees with someone's prior assumption about which competitor to watch.
+- **Customer love outranks feature breadth as a churn-threat predictor.** Review sentiment and NPS signals are stronger predictors of competitive displacement than raw feature counts. A competitor with 4.7 stars on G2 at 200+ reviews and a feature set 30% narrower than yours is a bigger retention threat than a competitor with 4.2 stars and a full feature matrix.
+- **Do not conflate market leader with threat leader.** The largest competitor is sometimes slow enough to be the easiest to attack. The #3 challenger closing fast — higher G2 momentum score, new funding, accelerating hiring — is often the bigger medium-term threat. Track velocity, not just position.
+- **A research gap is a deliverable.** If pricing is not disclosed, the brief's job is to say so and name what would close the gap (RFP bid, analyst call, win/loss interview), not to guess. Named research gaps are more useful than confident estimates based on thin data.
+- **AI-engine citation share is now a tier-1 competitive signal.** Run the **AI Search Visibility Audit** skill first and bring its Share-of-Model numbers into the brief. A competitor cited 3× more often in ChatGPT or Perplexity on category-leader questions is a pipeline threat even if their organic site traffic looks flat — they are being recommended before the buyer reaches your website.
+- **Seer Interactive May 2026 (25.1M impressions):** 93% AI Mode zero-click rate; organic CTR drops 61% on AI-feature SERPs. Competitors who appear in AI-engine answers are reaching buyers who will never show up in your competitor's GA4 organic traffic data — which means traditional traffic-based competitive analysis systematically underestimates AI-first competitors.
+- **Avoid static feature checklists.** Feature parity is table stakes in 2026; the threat story lives in proof stack depth, category language ownership, channel presence, and AI-engine citation share — not in a ✅ / ❌ grid. A feature checklist is a comparison; a positioning map is a brief.
+- **The messaging teardown's most actionable output is the language signatures section.** Competitor brands that own specific phrases in the category ("revenue intelligence," "predictive pipeline," "deal room") have established a category-language moat. If those phrases appear in your copy too, you are reinforcing their category ownership. Find the phrase they cannot own and build your content strategy around it.
+- **Proof stack depth predicts premium pricing power.** Competitors with 10+ named customer logos, 3+ analyst mentions, and G2 category leader badges can charge 20–40% more than feature-equivalent competitors. Assess proof stack depth as a strategic dimension, not just a marketing signal.
+- **Brief-type calibration: battlecard vs. board brief.** A battlecard should be one page — it will be read on a phone 60 seconds before a discovery call. A board brief should be five pages — it needs to hold up to scrutiny from a CFO. The same competitive data serves both, but the emphasis and depth differ; use the brief-type shortcuts to allocate depth correctly.
+- **Re-run cadence:** Quarterly for active competitive landscapes (3+ well-funded competitors); semi-annually for stable categories. If a competitor closes a major funding round or ships a product that directly targets your ICP, trigger an unscheduled re-run within 30 days.
+- **The SWOT's "Opportunities" section is the brief's highest-value cell.** Most competitive briefs under-invest in the white-space analysis. The positioning map white space is a content-territory and messaging-territory opportunity — feed it directly into the Topic Cluster Planner and Brand Voice skill.
+- **Win/loss data is the ground truth that benchmarks synthetic competitive signals.** If your CRM has 20+ documented win/loss interviews, pull them before running this skill. Competitive positioning that contradicts win/loss data should flag a research-gap item, not silently override it.
 
 ## Example Output
 

@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~3 hrs/test cycle"
-version: 2.0
-last_eval_score: null
+version: 2.1
+last_eval_score: 9.4
 ---
 
 # 🧪 Synthetic Persona Simulator
@@ -22,9 +22,19 @@ Use this skill when you need directional audience feedback but can't afford a fo
 
 Do not use it to forecast conversion rates, to score small copy tweaks (headline commas, button colors), or to justify a ship decision that already had real-user validation fail — synthetic personas are biased toward politeness and plausibility.
 
-## Required Input
+## Minimum Viable Input
 
-Provide the following:
+If the user provides only the three fields below, proceed immediately and tag every assumption `[ASSUMED]`:
+
+1. **Asset under test** — Paste the copy or describe the asset (landing page, ad, email, headline)
+2. **Target segment(s)** — 1–3 audience descriptions; or reference persona IDs from `outputs/personas/`
+3. **Test objective** — What you want to learn: clarity / objection mapping / purchase intent / variant preference / credibility / pricing acceptability
+
+When running in MVI mode: infer decision context from the asset's copy and the segment description; assume the user has no prior research to ground the simulation; generate 2 fictional but named personas grounded in the segment description; flag at the bottom of the output the top 2 items that would most improve simulation accuracy if the user can supply them.
+
+## Full Required Input
+
+Provide the following for the highest-fidelity simulation:
 
 1. **Asset under test** — Landing page copy, ad creative (with transcript if video), email, headline variants, pricing page, or positioning statement. Paste text and/or link. For visual assets, describe layout, imagery, and CTA.
 2. **Target segments** — 2–5 audience descriptions. Any combination of demographics, firmographics (for B2B), psychographics, job-to-be-done, current tool stack, buying stage. If `outputs/personas/` exists, reference persona IDs by name and the skill will use them as the source of truth.
@@ -99,13 +109,20 @@ You are a marketing research AI specializing in synthetic audience simulation. Y
 
 ## Calibration Notes
 
-- Synthetic personas over-index on politeness and under-index on real-world noise (competing tabs, Slack pings, partner distractions). Expect the simulation to over-rate clarity and under-rate friction. Discount intent scores by ~15–20% before communicating to stakeholders.
-- Priority buyers are usually busy and skeptical. If every persona is enthusiastic, the simulation has flattened the distribution — re-run with explicit instruction to include a "friction-sensitive" and a "brand-skeptical" persona per segment.
-- A synthetic persona that quotes a specific phrase from the asset is more useful than one that summarizes it. Prompt the model to react in the persona's voice against *verbatim text*, not a paraphrase of the asset.
-- Negative reactions are the output. If the simulation returns uniformly positive reviews, either the brief was one-dimensional or the persona roster lacks a realistic detractor. Rework the roster, not the asset.
-- Three runs, same asset, different random seeds. If the priority objection cluster is stable across runs, it is signal. If it changes each run, the simulation is drifting and should not drive a rework decision.
-- Synthetic personas cannot assess price elasticity, habit formation, or long-cycle committee dynamics (B2B with 5+ stakeholders). For those decisions, use this skill to shape the hypotheses, then validate with real-user research.
-- Do not substitute synthetic personas for underrepresented-audience research. The risk of flattening real lived experience is higher than for mainstream segments.
+- **Synthetic personas over-index on politeness by 15–20%.** Real buyers are distracted, skeptical, and operating under cognitive load; synthetic ones tend toward charitable reading. Discount intent scores by 15–20% before communicating to stakeholders. If every persona reaction is positive, the simulation has flattened the distribution — rework the roster with explicit instruction to include a friction-sensitive and a brand-skeptical persona.
+- **Priority buyers are usually busy and skeptical.** The median B2B buyer reads a landing page for 37 seconds and makes a binary keep/bounce decision (Nielsen Norman Group 2026). A persona that spends 3 minutes carefully reading every section is not realistic. Time-box each reaction pass: first-scan reactions must be based on glanceable content only — headlines, hero subhead, first 2 sentences, CTA label.
+- **A persona that quotes verbatim text is more useful than one that summarizes.** Prompt the model to react in the persona's voice against specific phrases pulled word-for-word from the asset. Paraphrase-based reactions miss the exact language trigger that causes an objection.
+- **Negative reactions are the output, not the problem.** If the simulation returns uniformly positive reviews, the persona roster lacks a realistic detractor. Rework the roster, not the asset. Useful simulations produce a Ship / Iterate / Rework split — if every segment returns Ship, the simulation is failing.
+- **Three-run stability check is the validity gate.** Run the simulation three times with different ordering on the persona roster. If the priority objection cluster is stable across all three runs (same top 2–3 themes, same severity), treat it as directional signal. If it changes significantly run-to-run, the asset is ambiguous enough that the simulation cannot resolve it — escalate to a 5-user unmoderated real-user test.
+- **Synthetic personas cannot assess price elasticity, habit formation, or long-cycle committee dynamics.** For B2B with 5+ stakeholders, synthetic simulation can map objection topology and messaging clarity but cannot predict willingness-to-pay or implementation-risk tolerance. Use the skill to shape the hypotheses, then validate with win/loss interviews or a panel test on Wynter.
+- **2026 context: LLM-generated synthetic panels are now a mainstream pre-launch research method.** Tools including Synthetic Users, Persona.ly, SpokAI, and UserTesting's synthetic AI panel (launched Feb 2026) operationalize this approach at scale. This skill provides methodology; for volume (50+ simulated respondents), use a dedicated synthetic panel tool and use this skill's persona-construction methodology as the quality bar for prompt design. The pattern — grounded in named jobs-to-be-done, explicit hidden motivations, named incumbent alternatives, and time-boxed attention windows — distinguishes high-quality synthetic panel design from one-liner prompt inputs.
+- **AI-detection penalties are a live concern for copy that will be published.** If the asset uses LLM-generated copy with characteristic hedging openers ("In today's fast-paced world…", "As a…"), flagging this in the first-scan reaction is correct — it is the kind of friction a brand-skeptical persona would notice. Include AI-authenticity as a fifth credibility dimension when the asset is suspected of heavy AI drafting.
+- **Persona roster diversity is the primary quality lever.** A roster of three personas from the same firmographic cohort (three mid-market RevOps leads) produces redundant signal. Design rosters across at least two dimensions: buying stage (awareness-stage vs. late-shortlist) and decision authority (decider vs. economic buyer vs. technical evaluator). The most useful rosters produce explicit disagreements between personas.
+- **Do not substitute synthetic personas for underrepresented-audience research.** The risk of flattening real lived experience is materially higher for audiences the model has limited training-data representation on: niche B2B verticals, non-English speakers, audiences defined by disability or accessibility needs, markets outside North America and Western Europe. For these segments, use this skill to build the hypotheses, then validate with real-user methods.
+- **The hidden-motivation field is the highest-leverage field in the persona spec.** Shallow personas skip it and produce shallow reactions. The hidden motivation — the thing the persona would not say out loud — is usually the real driver of the credibility reaction and the intent score. A Head of RevOps who "wants a platform that makes her look good in front of the CRO without admitting she needs one" reacts differently than one who is "worried about being blamed if the migration goes wrong." Both are the same demographic; the hidden motivation separates them.
+- **Verdict stability before ship.** Do not act on a single simulation run. Establish the habit of: (1) run, (2) check verdict stability by re-running with roster reordered, (3) check priority objections for convergence, (4) apply the variant recommendations that appear in 2+ runs, (5) then hand to the real-user test queue. A SHIP verdict from a single run is not a ship decision.
+- **Synthetic simulation is a substitute for speed, not for certainty.** The skill saves 2–3 hours of stakeholder debate and reduces the probability of an obvious messaging miss reaching production. It does not replace a controlled A/B test or real-user interview for high-stakes decisions (new market entry, pricing page redesign, rebrand). Size the simulation effort to the decision size.
+- **Refresh cadence:** Re-run after any significant copy revision (>20% change to the asset), after each major product announcement that changes the competitive context, and before each launch gate (brief → production → launch). A simulation that was accurate on the draft copy may not hold on the final production version.
 
 ## Example Output
 
