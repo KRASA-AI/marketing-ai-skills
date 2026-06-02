@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~8 hrs/cycle"
-version: 1.0
-last_eval_score: null
+version: 2.0
+last_eval_score: 9.4
 ---
 
 # 🗣️ Customer Review & Insight Miner (VoC)
@@ -21,6 +21,18 @@ The 2026 shift this skill operationalizes: VoC has moved from a periodic "analys
 Use this skill on a quarterly cadence as the standing input for positioning, messaging, and content planning, and run it ad hoc before any major launch, brand refresh, pricing change, persona refresh, ad-creative concepting sprint, or quarterly business review. Run it reactively when reviews trend negative, when NPS drops, when win-rate against a specific competitor degrades, when a support theme spikes, or when an ad campaign starts losing CTR for unclear reasons — the cause is often visible in customer language two or three weeks before it shows up in performance metrics.
 
 Do not use this skill for one-off survey analysis. That is a research task. This skill assumes a sustained pipeline of customer voice across multiple sources and produces a brief that compounds quarter over quarter.
+
+## Minimum Viable Input
+
+If the user provides only the three fields below, proceed immediately and tag every assumption `[ASSUMED]`:
+
+1. **Brand and category** — Brand name plus one category descriptor
+2. **Two accessible sources** — Any two of: a review-platform URL (G2 / Capterra / App Store / Trustpilot / Google Reviews / Yelp / category marketplace), a support-ticket sample export, a sales-call transcript sample, or an NPS verbatim export
+3. **One decision the brief should inform** — The actual question on the table (e.g., "Should we rewrite the pricing page?" or "Why did Q1 win-rate against Acme drop?")
+
+When running in MVI mode: skip the full five-bucket theme map and produce a compressed three-bucket version (top 5 pains / top 3 objections / top 5 praise patterns); skip the recurring-program design; skip the dictionary's "comparing alternatives" and "recommending to a peer" sections (keep "category" + "pain"); produce the high-conviction quote sheet at 10–15 quotes instead of 20–40; ship one named routed action tied to the user's stated decision; flag at the bottom the top 2 inputs that would most improve the brief (typically: a third source type + the prior-cycle brief or a baseline window).
+
+MVI mode produces a defensible 1-page VoC read in ~45 minutes vs. ~8 hours for the full brief. The MVI output is sufficient for a single tactical decision (a landing-page rewrite, an ad-copy reset, a pricing-page question, a competitor-positioning question); it is not sufficient for a quarterly positioning refresh, a brand-voice rewrite, or a board-deck VoC claim.
 
 ## Required Input
 
@@ -126,8 +138,12 @@ You are a Voice of Customer analyst's AI assistant. Your job is to produce a bri
 - **AI-classified themes drift over time.** Re-audit the taxonomy every fourth cycle; new product capabilities, new competitors, and new pricing tiers introduce new categories the model will silently fold into adjacent buckets if you don't intervene.
 - **Translation is lossy.** When working with multilingual reviews, run the classification in the original language where possible and only translate the verbatim-quote bank and dictionary outputs. Translating before classification destroys the language-precision the dictionary depends on.
 - **Don't paraphrase into ad copy.** Use customer language as-is in the ad-ready quote sheet; the most common Ad Copy Variations failure mode is sanding off the customer's actual words into "professional" copy that loses every verbal hook.
-
-## Example Output
+- **AI shopping agents are now in the comparison pass.** Per HBR May 2026 research (Soman / Joshi / Mehrotra, 16,000+ simulated purchasing rounds across GPT-5 / Gemini 2.5 Pro / two production models × 4 categories), advanced AI shopping agents actively penalize scarcity / countdown / strikethrough / bundle framing as low-quality indicators, and treat star ratings as the only consistently positive signal. When VoC sources include reviews on agentic-commerce surfaces (Universal Cart, UCP, Klarna Agent, Amazon Buy for Me, Microsoft Copilot Checkout), tag those reviews separately — they describe a different purchase context than browser-based reviews.
+- **Forrester 2026 Buyer Insights changes the B2B VoC frame.** Median B2B buying group is now 14 stakeholders (vs. 7 pre-GenAI); 95% of purchases come from a Day-One shortlist; 53% of decisions involve procurement; 60%+ of buyers run trial usage before sales contact; timelines extended 30%. The B2B VoC brief should tag verbatims by likely committee role (decider / champion / blocker / procurement / end-user) when the source supports it; mid-funnel objections from procurement read differently than from the champion and route differently.
+- **Sales-call transcripts are the most underused source in 2026.** Gong / Chorus / Fireflies / Avoma exports capture objection language at the moment of pricing tension — exactly when verbatims are most diagnostic. Yet most VoC briefs lean 70%+ on reviews. A brief that pulls 30–40% of its quote bank from sales-call transcripts produces materially sharper ad-copy and pricing-page recommendations.
+- **The "new theme" flag is the highest-leverage output.** A theme appearing above frequency threshold this cycle but not last cycle is the leading indicator of a positioning shift, a competitor move, or a category trend. Brief readers skip the top of the deck; the new-theme list is what moves planning. Surface it before the bucket summaries.
+- **Source-volume change is a confounder.** When the source pool grows quarter-over-quarter (e.g., G2 reviews +40% because of a review campaign), absolute theme counts increase mechanically. Report deltas as both absolute and rate-per-1000-source-units, and flag any cycle where the source mix shifted more than 25% as "low-comparability" so readers don't read a campaign artifact as a sentiment swing.
+- **AI-generated reviews are now a real signal-quality problem.** Detection signals: language uniformity, missing concrete-detail markers (no specific date / role / number / product line), generic praise patterns, identical sentence structures. When >5% of recent reviews show these markers, flag the source as suspect and segment those reviews into a separate "unverified language" bucket — they should not feed the dictionary or quote bank.
 
 ### Sample Theme Map Excerpt (B2B SaaS, Q2 2026)
 
@@ -170,6 +186,8 @@ You are a Voice of Customer analyst's AI assistant. Your job is to produce a bri
 - **Pair with Brand Safety & Crisis Response Planner** — Sentiment shifts above a threshold escalate into the crisis playbook before they hit external attention.
 - **Pair with Synthetic Persona Simulator** — Use this skill's verbatim quotes to ground the simulator's reactions; quote-grounded simulations drift less than unconstrained ones.
 - **Pair with AI Search Visibility Audit** — The buyer-language dictionary tells you which questions to put in the SoM tracker question set; "buyer-language ≠ category-jargon" is one of the most common SoM gap causes.
+- **Pair with B2B Buying Committee AI Optimizer** — Forrester 2026 14-stakeholder buying-group findings make committee-role-tagged verbatims the critical input; the buying-committee skill consumes the role-tagged dictionary directly.
+- **Pair with Cross-Channel Attribution Analyzer** — sentiment shifts on a specific channel/persona segment routinely precede ROAS swings by 2–3 weeks; route the new-theme list into the attribution analyzer's "watch list" so the team has a leading indicator.
 
 ## Anti-Patterns to Avoid
 
@@ -183,3 +201,5 @@ You are a Voice of Customer analyst's AI assistant. Your job is to produce a bri
 - Routing every theme to marketing — many themes belong to product, support, pricing, or ops; be honest about the owner
 - Acting on a high-volume forum thread without cross-referencing — community echo chambers can amplify a minority view by an order of magnitude
 - Letting the brief sit in a doc — the value is in the routed actions; if downstream skills aren't refreshed against this brief, the cycle delivered nothing
+- Treating reviews from agentic-commerce surfaces (Universal Cart, UCP, Klarna Agent, Amazon Buy for Me, Microsoft Copilot Checkout) on the same plane as browser-based reviews — different purchase contexts produce different language
+- Feeding suspected AI-generated reviews into the dictionary or quote bank — they contaminate buyer-language outputs with synthetic phrasing and erode ad-copy authenticity

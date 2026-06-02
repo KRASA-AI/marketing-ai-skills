@@ -4,7 +4,7 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~3 hrs/test cycle"
-version: 2.1
+version: 2.2
 last_eval_score: 9.4
 ---
 
@@ -71,6 +71,8 @@ You are a marketing research AI specializing in synthetic audience simulation. Y
    - **Evaluation reaction (30–90 seconds)** — What resonates, what confuses, what raises objections, what they'd want clarified, which phrase they stop on
    - **Credibility reaction** — What they believe, what they doubt, what proof they'd need before acting
    - **Intent reaction** — Next action on a 1–5 scale: ignore → click → research → share → purchase/sign-up; include the specific next-click URL or action they would take
+
+   **Optional fifth layer — Agent-persona pass.** When the asset will appear on agentic-commerce surfaces (Universal Cart, UCP, Klarna Agent Mode, Amazon Buy for Me, Microsoft Copilot Checkout, ChatGPT product feed), add an AI-shopping-agent reaction grounded in HBR May 2026 empirical findings: agents actively penalize scarcity badges / countdown timers / strikethrough pricing / bundle framing as low-quality indicators; agents reward star-rating density + verified review markers + price clarity; agents discount un-attributed claims. Output: would the agent select / surface / reject the asset, with the specific signals that drove the verdict.
 
 3. **Map objections and friction points.** Cluster objections across personas by theme (price, trust, fit, timing, alternatives, effort, risk, authority). For each cluster, record: which personas raised it, what they said in their own words, and the severity (deal-breaker / softener / nitpick). Flag any objection raised by 2+ personas, or any deal-breaker raised by 1 priority persona, as a priority fix.
 
@@ -163,6 +165,10 @@ Bio: Joined six months ago after spinning out a RevOps function at a Series B Sa
 - **Feed winners forward** — when a variant emerges as the SHIP candidate, hand it to the AEO Content Optimizer or Ad Copy Variations skill for final packaging.
 - **Feed losers to Competitive Analysis Brief** — if a priority objection is "why not just use [competitor]?", that's a messaging gap the competitive brief should close first.
 - **Escalate sensitive findings to Brand Safety & Crisis Response Planner** — if simulation surfaces a credibility or tone risk that could become a live crisis (regulated claim, culturally charged language), route it.
+- **Pair with Customer Review Insight Miner** — ground the persona roster's verbatim language in the high-conviction quote sheet; ungrounded simulations drift toward generic objections.
+- **Pair with B2B Buying Committee AI Optimizer** — for B2B simulations with 5+ stakeholders, structure the roster against the Forrester 2026 buying-committee model (decider / champion / blocker / procurement / end-user, median 14 stakeholders); flat-organization rosters miss the procurement and blocker objection patterns that kill 30%+ of deals.
+- **Pair with Agentic Commerce Optimizer** — for assets that will appear on agent-mediated surfaces (Universal Cart, UCP, Klarna Agent, ChatGPT product feed), run a parallel agent-as-persona pass: simulate how an AI shopping agent would parse the asset (per HBR May 2026, agents penalize scarcity / countdown / strikethrough / bundle framing and reward star ratings + price clarity). Human-persona ship verdicts can mask agent-persona reject verdicts on the same asset.
+- **Pair with Landing Page Conversion OS** — simulation-driven copy rewrites feed directly into LP variant queues; tag each rewrite with the simulation run ID for downstream traceability.
 
 ## Anti-Patterns to Avoid
 
@@ -173,3 +179,8 @@ Bio: Joined six months ago after spinning out a RevOps function at a Series B Sa
 - Running one simulation and declaring a verdict — run three, look at stability
 - Using synthetic personas for audiences the model has limited training data on (niche B2B, highly regulated, non-English markets) without explicit calibration notes
 - Not documenting the roster — a simulation without a reproducible persona definition cannot be re-run or compared across cycles
+- Building a roster from the same firmographic cohort — three mid-market RevOps leads produce redundant signal; diversify across buying stage and decision authority
+- Reacting to verbatim copy paraphrased into "professional" language rather than the original asset wording — strips the exact-phrase friction signal the simulation is designed to detect
+- Running B2B simulations on a 3-stakeholder roster when the actual buying committee is 12+ — misses the procurement objection cluster and the blocker patterns that dominate 2026 enterprise SaaS deal cycles
+- Skipping the agent-persona pass for assets that will appear on agentic-commerce surfaces — human personas have different friction signatures than AI shopping agents
+- Treating a SHIP verdict as a launch decision without the test-worthy-hypothesis hand-off to real-user validation

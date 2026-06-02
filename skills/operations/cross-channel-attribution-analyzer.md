@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: advanced
 time_saved: "~4 hrs/review"
-version: 2.0
-last_eval_score: null
+version: 3.0
+last_eval_score: 9.4
 ---
 
 # 📊 Cross-Channel Attribution Analyzer
@@ -21,6 +21,18 @@ The 2026 shift this skill operationalizes: attribution conversations have moved 
 Use this skill at monthly or quarterly performance reviews, before budget reallocation conversations, when a single channel starts dominating credit (usually last-click), when leadership asks "is this channel actually working?", when a reported ROAS moves by more than 20% week-over-week, or when a channel-owner is defending budget and the blended picture needs a neutral voice. It pairs well with the `campaign-performance-narrator` skill, which turns the resulting analysis into a stakeholder narrative.
 
 Do not use it to produce channel-attribution numbers for external reporting (analyst calls, board decks) without noting the model and its limits — this is a decision tool, not an audited revenue attribution statement.
+
+## Minimum Viable Input
+
+If the user provides only the three fields below, proceed immediately and tag every assumption `[ASSUMED]`:
+
+1. **Spend + conversions by channel (one window)** — Even a sparse table is enough; flag missing CPA / ROAS / revenue cells rather than fabricating them
+2. **Business model** — One line (e.g., "DTC subscription, 30-day cycle" or "B2B SaaS, 60–90-day cycle")
+3. **One reallocation decision on the table** — The actual question the user is trying to answer (e.g., "Should we cut retargeting and move to TikTok?")
+
+When running in MVI mode: default the attribution model to last-click with a visible caveat at the top; skip the 4-lens commentary on channels with <5% of spend; produce a single balanced scenario (no conservative/aggressive variants) plus a one-paragraph "what would change my mind"; ship one named measurement upgrade (always a 2-week geo holdout on the channel central to the decision); flag at the bottom the top 2 inputs that would most improve the analysis (typically: a known overlap map + the result of any prior incrementality test).
+
+MVI mode produces a defensible 1-page reallocation recommendation in ~30 minutes vs. ~4 hours for the full analysis. The MVI output is sufficient for a single reallocation decision in a weekly performance review; it is not sufficient for a quarterly budget reset, a board-deck attribution claim, or a CFO-facing CAC/payback rewrite.
 
 ## Required Input
 
@@ -103,8 +115,12 @@ You are a marketing analytics AI assistant. Your job is to move the conversation
 - Affiliate and influencer channels usually show ROAS that is mathematically correct but strategically meaningless because the credited conversion would have happened anyway. Always name this risk.
 - "Data-driven attribution" in a platform (e.g., Google's DDA) is still a platform-self-serving model. It is better than last-click for within-platform comparison and worse than MMM for cross-channel.
 - A budget recommendation without a named test-to-confirm is a guess wearing a tuxedo.
-
-## Example Output
+- **Meridian-in-Analytics-360 + QFC change the conversation for GA360 customers.** Google Marketing Live 2026 (May 20) put open-source Meridian MMM directly inside Analytics 360 and added Qualified Future Conversions as a Gemini-powered predictive metric. When the advertiser is on GA360, the MMM-refresh recommendation collapses from "12 months and a vendor engagement" to "self-serve in-platform." Naming the path (Meridian-in-Analytics-360, not "an MMM project") moves the conversation faster.
+- **Agent-mediated traffic is now a measurement category.** Universal Cart (Search / Gemini app / YouTube / Gmail), UCP, Klarna Agent Mode, Amazon Buy for Me, Microsoft Copilot Checkout, and ChatGPT product-feed buys carve out a cohort where standard click-attribution breaks down — last-click reports the agent surface as the converter, but the upstream demand signal sits elsewhere. When >5% of converting traffic is agent-surfaced, segment that cohort and analyze it on its own plane.
+- **ChatGPT Ads is now an attributable channel.** As of June 5, 2026 OpenAI's Ads Manager supports CPA / conversion-optimized campaigns with daily / lifetime budgets and granular US geo-targeting. CPM has drifted from $60 → ~$25 as inventory expanded. The cleanest attribution model for ChatGPT Ads in 2026 is a standalone geo holdout (not last-click platform reporting), because the upstream awareness lift compounds with the direct response click and naive credit double-counts.
+- **iOS ATT / GA4 / cookie deprecation depresses digital conversion reporting by 15–25% systematically.** If reported ROAS dropped 15–25% without a known business reason, a measurement artifact is the first hypothesis. Audit the server-side conversion pipeline (Meta CAPI, Google Enhanced Conversions, GA4 event validation) before reallocating a single dollar.
+- **Holdout test calibration: geo-matched-markets is the workhorse.** Cost is usually 5–10% of total channel spend over a 2-week window; produces a directional incrementality estimate within ±15% for branded paid search, retargeting, and most paid social cohorts. Cell-level holdouts on email and lifecycle are nearly free and the most underused test in 2026. Don't propose a customer-level or panel-based test when geo will answer the question for less.
+- **The first-month-of-a-new-model rule.** When a measurement migration just landed (GA4 → GA4 360, cookie wave, server-side rollout, Meridian-in-Analytics-360 onboarding), default to the conservative reallocation scenario for the first 30 days regardless of signal direction. The variance in measurement transit periods routinely produces 20–30% noise on channel CPA reports.
 
 ### Normalized Performance Table (Q1 2026, DTC Subscription, 30-day window)
 
@@ -164,6 +180,10 @@ Q1 shows Meta prospecting scaling cleanly while retargeting and the bottom decil
 - **Feed into AI Search Visibility Audit** — if branded search drops after a reallocation, SoM erosion in AI engines is a common root cause; check both.
 - **Escalate to Brand Safety & Crisis Response Planner** — if a channel produces a sudden ROAS cliff in hours (not weeks), pause first and investigate; platform account suspensions and brand-safety events look like attribution anomalies.
 - **Pair with PR Pitch Builder** — earned coverage shows up as branded search and direct-traffic lifts in this analyzer; tag the window so lifts are not misattributed to paid channels.
+- **Pair with Agentic Commerce Optimizer** — the agent-mediated traffic cohort routinely shows up as a phantom-uplift in the last-click report; segment it on its own plane and analyze separately.
+- **Pair with Customer Review Insight Miner** — VoC sentiment shifts often precede ROAS swings by 2–3 weeks; cross-reference suspect channel anomalies against the latest VoC delta scorecard before declaring a measurement artifact.
+- **Pair with Topic Cluster Planner** — when branded search volume is reshuffling channel credit, the SEO/AEO content roadmap is the upstream lever; rotate the reallocation question into the cluster roadmap rather than treating it as a paid-budget question.
+- **Pair with Brand Voice Guide Generator** — creative refresh cadence on a Scale verdict requires brand-voice consistency at higher volume; route brief-to-asset volume increases through the voice guide.
 
 ## Anti-Patterns to Avoid
 
@@ -176,3 +196,6 @@ Q1 shows Meta prospecting scaling cleanly while retargeting and the bottom decil
 - Letting one channel owner write the attribution story for the whole mix
 - Treating MMM and holdouts as interchangeable — they answer different questions at different cadences
 - Cutting a channel without first naming the conversions you expect to lose and the hypothesis for why
+- Treating agent-mediated converting traffic (Universal Cart, UCP, ChatGPT product feed, Klarna Agent, Microsoft Copilot Checkout, Amazon Buy for Me) on the same plane as click-attributed traffic
+- Reallocating in the first 30 days after a measurement migration (GA4 → GA4 360, cookie wave, server-side rollout, Meridian-in-Analytics-360 onboarding) without naming the noise band
+- Recommending an MMM "project" to a GA360 customer when Meridian-in-Analytics-360 + QFC is now the self-serve in-platform path
