@@ -37,11 +37,11 @@ This repo is a complete AI toolkit for marketing & advertising. Every skill is a
 | Ad Copy Variations | Create multiple headline and description variations for Google, Meta, and LinkedIn ads — each formatted to platform specs, organized by messaging angle, and ready to paste directly into ad platforms. | ~20 min/campaign |
 | Email Sequence Builder | Draft a complete multi-email nurture sequence with subject lines, preview text, body copy, CTAs, and send timing — designed to move leads through a specific stage of your marketing or sales funnel. | ~30 min/sequence |
 | Campaign Performance Narrator | Turn raw campaign metrics into a stakeholder-ready performance narrative — with defined metrics, benchmark context, cause-and-effect commentary, visualization guidance, and audience-specific framing (CMO/CEO, ops team, or channel owner). | ~45 min/report |
-| Email Drafter | Turn rough notes into a professional email matching your company's voice and tone. | ~10 min/use |
-| Meeting Summarizer | Summarize meeting notes into action items, decisions, and follow-ups. | ~10 min/use |
-| Review Responder | Craft professional responses to online reviews — both positive and negative. | ~10 min/use |
+| Email Drafter | Turn rough notes into a send-ready business email in the marketing team's voice — the internal and partner-facing email a marketer writes all day that is *not* a campaign send: the stakeholder update, the exec recap, the creative-feedback note to an agency or freelancer, the brief hand-off, the budget-approval ask, the vendor or influencer outreach, the "campaign is live / paused / missed pacing" status note, the cross-functional request to sales or product. | ~15 min/email |
+| Meeting Summarizer | Turn raw meeting notes or a transcript into a structured, send-ready summary calibrated to the kind of marketing meeting it was — campaign kickoff, creative review, client/stakeholder status call, sprint planning or retro, quarterly business review (QBR), agency check-in, or cross-functional sync. | ~20 min/meeting |
+| Review Responder | Craft a platform-appropriate public response to a review of the brand, product, or service — calibrated to the review's sentiment (5★ praise, 4★ mixed, 3★ lukewarm, 1–2★ negative, or anonymous/troll), the platform's constraints and conventions (Google Business Profile, Trustpilot, G2, Capterra, the App Store / Google Play, Yelp, Amazon, Facebook, TripAdvisor), and the brand's voice and escalation rules. | ~15 min/review |
 
-**Total time saved per use: ~560+ minutes across all skills.**
+**Total time saved per use: ~580+ minutes across all skills.**
 
 ## Quick Start
 
