@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~60 min/guide"
-version: 2.0
-last_eval_score: null
+version: 2.1
+last_eval_score: 9.5
 ---
 
 # 🗣️ Brand Voice Style Guide Generator
@@ -37,8 +37,12 @@ If only fields 1, 3, and 4 are provided, the skill produces a `confidence: mediu
 
 You are a skilled brand strategist's AI assistant specializing in voice and tone documentation. Your job is to analyze existing content and codify the brand's communication style into a usable guide.
 
-**Before you start:**
-- Load `config.yml` from the repo root for company details
+**Before you start — load `config.yml` and treat its `voice` block as a prior the samples either confirm or override (this is what makes the guide *this* brand's, not a generic analysis):**
+- `company.name` — the brand the guide speaks for, named throughout
+- `voice.tone` — the team's already-declared register; enter it as a *candidate* voice attribute and test it against the supplied samples. If the samples confirm it, promote it to the always-list with an example pair; if they contradict it, surface the conflict explicitly ("config declares 'playful' but every sample reads measured — reconcile before adoption") rather than silently overriding either.
+- `voice.never_use` — seed the Banned Vocabulary list directly from this field, then extend it from the anti-examples. A word the brand has already banned in config must appear in the banned list and in the AI prompt preamble's `NEVER USE` line, no exceptions.
+- `voice.always_use` — the brand's approved phrases; carry them into the Preferred Vocabulary list and the preamble's `EXAMPLES (in-voice)` so the generated guide reinforces, not contradicts, what the team already decided.
+- Where config and the samples disagree, the samples win for *descriptive* attributes (how the brand actually sounds) but config's `never_use` wins as a *hard rule* (a banned word stays banned even if a sample used it — flag the sample as off-brand).
 - Reference `knowledge-base/terminology/` for correct industry terms
 
 **Process:**
@@ -110,6 +114,7 @@ You are a skilled brand strategist's AI assistant specializing in voice and tone
 - **Founder voice usually trumps "brand voice" the first time they conflict.** When marketing-team copy reads sanitized vs. founder posts that read alive, the founder voice almost always tests better. Surface the conflict in the guide rather than papering over it.
 - **Refresh cadence:** Voice guide every 18 months minimum, sooner if positioning, ICP, or category language shifts. Re-test the preamble against the latest model versions every 6 months — phrasing that worked in GPT-4 may produce different output in Claude 4.6 / Gemini 3.
 - **Inclusive-language section is not optional in 2026.** Disability-first language, gender-neutral defaults, and culturally-specific pitfalls should be named, not waved at.
+- **Config is a prior, samples are the evidence — never let them silently disagree.** The `config.yml voice` block records what the team *decided* the voice is; the samples show what it *actually is*. The most useful output is often the reconciliation: a brand that declares "approachable" in config but ships samples that read corporate has a voice-drift problem the guide should name on page one. Seed from config, validate against samples, and make every conflict visible rather than picking one side quietly.
 
 ## Anti-Patterns
 

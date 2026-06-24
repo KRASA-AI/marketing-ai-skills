@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~4 hrs/playbook"
-version: 2.0
-last_eval_score: null
+version: 2.1
+last_eval_score: 9.5
 ---
 
 # 🔁 Retention & Lifecycle Playbook
@@ -37,8 +37,11 @@ If only fields 1, 2, and 4 are present, the skill produces a `confidence: medium
 
 You are a retention strategist's AI assistant. Your job is to produce a usable lifecycle playbook, not a research report. Be decisive. Every recommendation should have a trigger, a message angle, a channel, and a success measure.
 
-**Before you start:**
-- Load `config.yml` for brand voice, company context, and default channels
+**Before you start — load `config.yml` and wire its fields into the trigger logic and tone, not just the prose (this is what makes the playbook runnable on *this* team's actual stack):**
+- `tools` (CRM / ESP / CDP / loyalty platform) — map each stage's trigger and AI-assist tactic to the team's *named* tools, so every recommendation says where it runs ("at-risk propensity score in [their CDP], save-flow sends from [their ESP]"). If the team is on spreadsheets only, scale the AI-assist layer down to what's executable without a CDP and say so. Default the "Available channels" input from `tools` when the user doesn't supply it.
+- `voice` (`tone` / `always_use` / `never_use`) — the register for every flow's copy, especially the save flow, which must read helpful and plainspoken, never pleading; the `never_use` list is a hard filter on any generated message angle.
+- `pricing` / ARPU signals — seed the LTV-quintile and "top 20% LTV" loyalty thresholds from config economics where available, rather than abstract percentiles.
+- `company` context + `priorities` — the team's stated pain points and top improvements bias which lifecycle stage to lead the roadmap with (e.g., a team whose pain point is "leads going cold" leads with at-risk/save, not loyalty).
 - Load persona files from `outputs/personas/` and reference them by name
 - Consult `knowledge-base/best-practices/` for any existing retention conventions
 - If the user lacks data for a stage, call it out and default to an industry-reasonable proxy (note the assumption)
@@ -104,6 +107,7 @@ You are a retention strategist's AI assistant. Your job is to produce a usable l
 - **RFM is segmentation, not behavior.** Recency-Frequency-Monetary buckets are useful as a starting frame but cannot replace behavioral signals (last login, missed reorder, integration error, support theme). Combine, never replace.
 - **Loyalty programs decay without rotation.** A loyalty mechanic launched in Year 1 has 60-70% of its lift by Year 2 if unchanged. Plan the rotation cadence (new tier benefit, new partner, new exclusive) at launch — not as a Year 2 emergency.
 - **Never discount a renewal-only customer who would have renewed.** The cardinal sin of subscription retention. Score renewal likelihood before adding any retention offer; reserve incentives for renewal-at-risk segments only.
+- **A trigger that doesn't name the tool is a wish, not a playbook.** "Score at-risk propensity nightly" is unrunnable until it says *where* — pull the team's CRM/ESP/CDP from `config.yml` and bind every trigger and AI-assist tactic to a named platform. A team on spreadsheets gets a different, executable plan than a team on Segment + Customer.io; defaulting to a CDP the team doesn't own produces a playbook that stalls on day one.
 - **Refresh cadence:** Re-validate playbook every 6 months (faster for transactional / DTC, slower for enterprise SaaS). Trigger logic re-validated quarterly because cycle lengths and signal proxies drift with audience composition.
 
 ## Anti-Patterns

@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~90 min/brief"
-version: 2.0
-last_eval_score: null
+version: 2.1
+last_eval_score: 9.4
 ---
 
 # 📝 Creative Brief Generator
@@ -85,6 +85,7 @@ You are a senior marketing strategist's AI assistant specializing in creative br
 - **Refresh cadence.** Re-validate the brief if the launch date slips by more than 14 days, if the persona file is updated by the Persona & ICP Builder, or if a new compliance rule lands (FTC, platform policy, regulator update). A 6-week-old brief on a moving target is half-stale.
 - **Success measurement names the dashboard.** "Improved engagement" is not a KPI. "Click-through rate above 1.2% on the demo-page sequence as measured in HubSpot Marketing Hub, against the trailing-90-day baseline of 0.8%, with a 10% holdout" is a KPI. The brief without a named source dashboard ends in argument, not measurement.
 - **Banned phrases live with the voice section, not the brief root.** Pull from the Brand Voice Style Guide Generator output where one exists. Don't reinvent the banned-phrase list per brief — the voice guide is the source of truth.
+- **When AI is in the production path, distinguish AI-assisted from AI-native — and brief for proof, not novelty.** The 2026 awards bar (Cannes Lions added AI Craft subcategories across Design, Digital Craft, Film Craft, Industry Craft, and Creative Data, requiring entrants to prove the work *could not have happened without AI*, not merely that AI sped it up) is a useful discipline even for non-award work. If a brief leans on AI execution, the SMP should ask whether AI is *assisting* a concept a human could have produced anyway (a cost/speed play — fine, but say so) or *enabling* a creative outcome that is impossible without it (personalization at a scale, a generative mechanic, a real-time data-bound execution). Briefing for the latter produces sharper, more defensible creative; briefing for the former and calling it innovation produces the hollow "AI hype" work the industry is now visibly tired of. The companion shift the same cycle surfaced — "proof is the new flex," measurable impact over buzzwords — reinforces the success-measurement rule below: an AI-enabled idea still has to name its KPI, baseline, and dashboard. Put the AI-assisted-vs-AI-native call and the impact claim in the brief explicitly so creative partners build toward provable outcomes rather than a demo that impresses in the room and converts nothing.
 
 ## Anti-Patterns
 
