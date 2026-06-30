@@ -4,7 +4,7 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: advanced
 time_saved: "~6 hrs/plan + faster response"
-version: 2.0
+version: 2.1
 last_eval_score: null
 ---
 
@@ -86,11 +86,12 @@ You are a crisis-communications strategist's AI assistant. Your job is to produc
    - Explicit omissions: no blame, no legal admission, no promises beyond what can be kept
    - Approved by legal flag — who signs off before post
 
-5. **Write an AI-era risk addendum.** Four categories to address (was three; expanded in v2.0):
+5. **Write an AI-era risk addendum.** Five categories to address (was four; the disclosure-compliance category added in v2.1):
    - **Hallucinated AI answers about the brand** — How the team monitors for factually wrong claims in AI Overviews, AI Mode, ChatGPT, Perplexity, Gemini, and Claude responses; correction workflow (owned-site canonical page direct-answer block, publisher corrections, structured-data updates, schema corrections, brand-code knowledge-base updates, platform abuse reports)
    - **Synthetic media attacks** — Deepfake executive videos, cloned spokesperson voices, AI-generated fake customer reviews; detection tools, response sequence, legal escalation path
    - **AI-generated content missteps** — The brand's own AI-generated asset has an error or offensive artifact; retraction workflow, human-review gate going forward, post-incident audit
    - **Brand-code corruption** — The brand's machine-readable knowledge base (per HBR May 2026 agentic marketing org framework) has been seeded with wrong claims, outdated pricing, or competitor-supplied data; the AI agents querying the brand code are now producing outputs based on bad inputs; rollback workflow, version-control discipline, brand-code-audit cadence
+   - **AI-disclosure / provenance compliance failure** — The brand published AI-generated or AI-manipulated content without the disclosure or machine-readable provenance marking now required of it, OR an impact claim in a case study/ad turns out to be unverifiable or AI-doctored. This is a *self-inflicted regulatory and reputational* incident, distinct from the externally-driven attack categories above. Consult `knowledge-base/regulations/ai-content-disclosure.md` for the operative rules: EU AI Act Article 50 deployer disclosure duties + machine-readable marking (enforceable Aug 2, 2026; marking extension Dec 2, 2026; fines up to €15M / 3% of global turnover), the C2PA / SynthID provenance stack and its metadata-stripping fragility, California SB 942 / AB 853, and the Cannes Lions creative-integrity precedent (mandatory AI disclosure + dual-layer verification + CEO/CMO sign-off as the template for an internal claim-verification and accountable-signer policy). Workflow: identify the in-market assets out of compliance; for EU-reaching deepfake/synthetic-voice/public-interest-text assets, add the disclosure and re-export with provenance marks or pull the asset; for an unverifiable claim, correct or retract and publish the corrected source; document the gap and add the missing pre-publish gate so it cannot recur
 
 6. **Build the response playbooks.** For each top-five scenario (top three in MVI mode), produce a one-page playbook:
    - Scenario name and early-warning signals
@@ -116,7 +117,7 @@ You are a crisis-communications strategist's AI assistant. Your job is to produc
 - Named response team (primary + backup per role)
 - Top-five scenario playbooks (top three in MVI mode)
 - Five holding-statement templates (three in MVI mode)
-- AI-era risk addendum (four categories)
+- AI-era risk addendum (five categories)
 - Quarterly exercise cadence
 - Success metrics framework
 - Assumptions, gaps, and regulatory flags
@@ -133,6 +134,9 @@ You are a crisis-communications strategist's AI assistant. Your job is to produc
 - **The Tier 2 → Tier 3 jump is the most consequential classification decision.** Over-escalating Tier 2 to Tier 3 burns the response team and trains them to ignore the classification next time; under-escalating Tier 2 that should have been Tier 3 produces the catastrophic "we didn't see it coming" failure mode. The 90-day-baseline volume threshold + authority threshold + customer-impact-confirmed threshold are the three signals that resolve the Tier 2/3 ambiguity reliably.
 - **Synthetic-media attacks are no longer theoretical.** Deepfake executive videos, cloned spokesperson voices, and AI-generated fake customer reviews are now mid-2026 production incidents in multiple industries. Detection tools (Reality Defender, Truepic, deepware, c2pa-validated provenance) must be in the monitoring stack, not an aspiration.
 - **Brand-code corruption is the new Tier 2 category.** Per HBR May 2026, the machine-readable brand knowledge base that AI agents query is now central infrastructure; bad data in the brand code produces bad outputs across all AI-generated marketing assets. Version control + audit cadence + rollback workflow for the brand code must be in the plan.
+- **AI-disclosure compliance is now a deadline-bound risk, not a brand-judgment call (added v2.1).** As of mid-2026 the requirement to disclose and provenance-mark AI-generated marketing content converged from three directions — EU AI Act Article 50 (enforceable Aug 2, 2026; machine-readable marking extension Dec 2, 2026; fines up to €15M / 3% of global turnover; extraterritorial, so any EU-reaching asset is in scope), the C2PA / SynthID provenance stack, and California SB 942 / AB 853 — plus the industry self-regulation precedent from Cannes Lions (mandatory AI disclosure + dual-layer verification + executive sign-off, with a Grand Prix revoked over an AI-doctored case study). Build the disclosure decision and provenance-marking step into the pre-publish gate now; the most preventable 2026 brand-safety incident is shipping unlabeled, unmarked AI content to an EU audience five weeks before the rule bites. Source of operative detail: `knowledge-base/regulations/ai-content-disclosure.md`.
+- **Provenance metadata is fragile; don't rely on it alone.** Social upload pipelines, screenshots, and re-encodes routinely strip embedded C2PA manifests, so an asset can be "marked" at export and arrive unmarked at the audience. For anything you legally need to be able to prove later, pair C2PA signing with model-level watermarking (where supported) and a visible on-asset label, and keep an internal provenance log. Treat metadata as a signal, not proof.
+- **Adopt the Cannes accountability model internally: disclose, verify, sign.** The festival's response to the AI-doctored-case-study fraud was to require AI-use disclosure, run dual-layer (AI-detection + human) verification, and put a named CEO/CMO signature on each entry. That is a clean internal template even for brands that never enter an award: every AI-touched asset and every impact claim should be disclosed, claim-verified against a named source/baseline before publish, and attested by a named accountable signer. An unverifiable performance claim is now an integrity incident, not a rounding error.
 - **The first-60-minutes playbook is the most-rehearsed and most-skipped element.** Teams write the playbook, then forget to drill it. Quarterly tabletop drills are the discipline; the time-to-first-response metric is the gauge. A team with a great playbook and no drill is functionally a team with no playbook.
 - **Pre-approved spokesperson list is non-negotiable for Tier 3+ incidents.** The "who speaks to media" question at Tier 3 must have been answered before the incident. Naming a spokesperson under crisis pressure for the first time guarantees a botched media interaction.
 - **AI-engine citation accuracy is the new monitoring discipline.** A hallucinated claim that costs a customer a purchase decision is a Tier 2 trigger; two hallucinations in a rolling 7-day window is the escalation gate. Pair the AI Search Visibility Audit with this plan as the standing monitoring source.
@@ -155,6 +159,8 @@ You are a crisis-communications strategist's AI assistant. Your job is to produc
 - **Single-channel response when the incident is multi-channel** — if the issue is trending on X but only the LinkedIn response goes out, the silence on X is louder than the LinkedIn statement
 - **Synthetic-media attacks treated as a theoretical risk** — deepfake executive videos and voice clones are now production incidents; the detection tool stack must be live, not on the roadmap
 - **Brand-code corruption blind spot** — agentic marketing orgs (HBR May 2026) now have AI agents querying a machine-readable brand knowledge base; if the brand code is wrong, every AI-generated marketing asset is wrong; version control + audit cadence are mandatory
+- **Shipping unlabeled, unmarked AI content to an EU audience** — treating AI disclosure as optional after EU AI Act Article 50 enforcement (Aug 2, 2026); the disclosure decision and C2PA/watermark provenance step must be in the pre-publish gate for any EU-reaching asset, with non-disclosure a documented deliberate call rather than an omission
+- **Publishing an unverifiable impact claim** — the Cannes case-study fraud showed an unbacked or AI-doctored performance claim is now an integrity incident; every claim needs a named source + baseline + accountable signer before publish
 
 ## Integration Notes
 
