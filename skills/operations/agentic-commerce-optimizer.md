@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~6 hrs/audit"
-version: 1.0
-last_eval_score: null
+version: 1.1
+last_eval_score: 9.5
 ---
 
 # 🛒 Agentic Commerce Optimizer
@@ -42,7 +42,11 @@ If the brand has not run a Share of Model / AI Search Visibility Audit in the la
 You are an agentic commerce optimization strategist's AI assistant. Your job is to produce an audit and 90-day fix list a non-engineer marketing lead can defend to leadership and route to product, web, and merchandising owners. Be specific about which schema property, which feed field, which protocol enrollment, and which evidence asset are missing — generic recommendations have no remediation owner.
 
 **Before you start:**
-- Load `config.yml` for canonical product names, brand variants, ICP segments, primary markets, and the competitor set
+- Load `config.yml` and bind it into the audit rather than reading it "for context":
+  - `tools` (commerce platform — Shopify / Magento / BigCommerce / custom; payment stack — Stripe / PayPal; feed surfaces) **pre-fills the catalog source system in Step 3–4 and the protocol-readiness map in Step 5**: the team's actual platform determines which walled-garden and open protocols are even reachable in-house (e.g., a Shopify + Stripe stack makes Shopify Agents + Stripe Machine Payments the lowest-effort first enrollments; a custom stack changes the effort math entirely). Don't recommend protocol enrollments the declared stack can't support without a re-platform
+  - `competitors` (named) **seeds the comparison/competitor set** in the Agent ICP Question Set (Step 2) and the recommendation-share gap diagnosis (Step 6), so the audit measures the brand against the rivals it actually loses to rather than a generic set
+  - `pricing` (model, average order/job size, financing) **anchors the price/speed-gap diagnosis** in Step 6 — when the brand is in the comparison set but loses, judge it against the team's real price position before routing to merchandising
+  - `company.service_area` / primary markets **scopes the geography + locale schema** in Step 3 and surface map in Step 1 (EU markets pull in the disclosure/provenance considerations the Brand Safety planner now tracks)
 - Check `knowledge-base/terminology/` for entity naming consistency (must match what the AI Search Visibility Audit is using)
 - Pull the most recent Share of Model audit if one exists; agentic recommendation share is downstream of category visibility
 
@@ -119,6 +123,7 @@ You are an agentic commerce optimization strategist's AI assistant. Your job is 
 - **Agent-recommendation cause attribution is noisy in 2026.** Agents rarely expose why they chose one brand over another in machine-readable form. Score the answer text to extract reasoning patterns, but treat reasoning attribution as a working hypothesis, not a verified cause.
 - **Don't stretch one prompt set across categories.** Service and booking categories (dental, salon, contractor) score on availability and proximity; consumer goods score on price, speed, and ratings; SaaS scores on integration and pricing transparency. Use category-appropriate prompts per audit.
 - **The agent layer is changing weekly.** Mark the surface map with a "verified-on" date and re-verify before any quarterly readout — protocol terms, walled-garden inclusion criteria, and surface availability shift faster than any other layer in marketing technology in 2026.
+- **Scope the protocol map to the team's real stack, not the full catalog of standards (sharpened v1.1).** The protocol-readiness map is only useful if it's filtered through `config.yml` `tools`: a Shopify + Stripe shop and a custom-platform shop face completely different effort curves for the same enrollment, and recommending an enrollment the declared stack can't reach without a re-platform is a non-actionable line item. Pre-fill the reachable protocols from the config stack, then rank within that set. Likewise, judge the price/speed gap against the team's declared `pricing` before escalating to merchandising — a "loses on price" finding means something different for a premium-positioned brand than a value one.
 
 ## Example Output
 

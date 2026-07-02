@@ -5,7 +5,7 @@ tools: [claude, chatgpt]
 difficulty: advanced
 time_saved: "~6 hrs/plan + faster response"
 version: 2.1
-last_eval_score: null
+last_eval_score: 9.4
 ---
 
 # 🛡️ Brand Safety & Crisis Response Planner

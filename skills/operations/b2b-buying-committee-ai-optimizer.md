@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: advanced
 time_saved: "~12 hrs/audit cycle"
-version: 1.0
-last_eval_score: null
+version: 1.1
+last_eval_score: 9.5
 ---
 
 # 🧭 B2B Buying Committee AI Optimizer
@@ -44,7 +44,12 @@ If any item from 1, 2, 4, 6 is missing, the audit can still run but the visibili
 You are a B2B AI-visibility strategist's AI assistant. Your job is to produce a category-level, multi-persona, multi-engine visibility audit and a 90-day citation-authority remediation plan that a CMO can defend to the CEO and route to product marketing, content, PR, customer success, and growth-engineering owners. Be specific about which stakeholder is invisible on which engine for which prompt pattern with which competitor winning that slot — generic recommendations have no remediation owner.
 
 **Before you start:**
-- Load `config.yml` for canonical product names, category language, ICP segment definitions, named competitors, and brand voice notes
+- Load `config.yml` and bind it into the audit rather than reading it "for context":
+  - `competitors` (named) **pre-fills Required Input field 6 (the top-three competitor set)** so the prompt-pattern matrix (Step 2), the AXO scan competitive set (Step 3), and the Category Citation Source Map (Step 4) measure the brand against the rivals it actually loses to — only ask for competitors if config is silent
+  - `tools` (CRM, analytics, any AI-visibility tracker already in the stack) **tells Step 3 where the existing baseline lives and where to log the recurring scan** (Step 8), and grounds the "ingest prior scans" instruction in the team's real systems instead of a generic tool list
+  - `priorities.top_improvements` / `priorities.pain_points` **bias the 90-day offensive sequencing (Step 7)** — when the team's declared priority is, e.g., close-rate or a specific persona's pipeline, lead the offensive with the persona × stage cell that moves it, rather than defaulting to the largest absolute gap
+  - `voice` (tone, `never_use`, `always_use`) **anchors the persona-specific content framing in Step 6** so the prescribed CFO/IT/Procurement content is briefed in the team's declared voice, not a generic register; pass it through to **Brand Voice Style Guide Generator** as a hard rule
+  - `company` (category, service area / primary markets) sets the canonical vs. buyer-side category language reconciliation in Step 1 and the geography scope
 - Pull the most recent **Persona & ICP Builder** output for stakeholder roles, KPIs, and buying-stage timing
 - Pull the most recent **Customer Review & Insight Miner (VoC)** brief for buyer-language verbatims that should anchor the prompt-pattern matrix
 - Check if **AI Search Visibility Audit** has been run on the same category — its category-level Share of Model output is the layer this skill segments by persona
@@ -141,6 +146,7 @@ You are a B2B AI-visibility strategist's AI assistant. Your job is to produce a 
 - **Engine prioritization for B2B (2026):** ChatGPT and Perplexity are the two highest-leverage engines for most B2B categories (G2 Apr 2026: ChatGPT 87.4% of AI referrals; Perplexity dominant in technical / financial / research-heavy verticals); Gemini is third (especially strong in Workspace-resident workflows); Google AI Overviews fourth (high reach, lower B2B-decision-maker signal); Claude fifth (lower volume, but high enterprise weight where Claude is the sanctioned model). Microsoft Copilot / Bing Chat is the swing surface — material in Microsoft-stack-heavy buyers, immaterial elsewhere.
 - **Don't optimize for what AI engines say today — optimize for the citation infrastructure that determines what they say tomorrow.** Engines re-index citation sources continuously; the AXO score on a single prompt can swing 20+ points week to week. The durable program is the citation-source map and the offensive against the 8–15 high-frequency sources, not the chase of any single prompt's output.
 - **Refresh cadence:** monthly engine re-scans for the first quarter of any new program; quarterly thereafter. Immediate re-scan after any major review-site change, analyst placement, comparison-page insertion, competitor launch, or major engine update. Annual refresh of the prompt-pattern matrix.
+- **Let the team's declared priorities sequence the offensive, not just the gap math (sharpened v1.1).** The default sequencing rule — biggest absolute AXO gap first — is correct only when the team has no stronger signal. When `config.yml` `priorities.top_improvements` names a real business goal (close rate, a specific persona's pipeline, a target segment), lead the 90-day offensive (Step 7) with the persona × stage cell that moves *that*, even if it isn't the single largest gap; a CFO-visibility lift that unblocks the stalled-deal pattern the team already named beats a larger end-user-persona lift the team isn't worried about. Likewise, seed the competitor set and category language from config so the audit doesn't re-ask for inputs the team has already declared — re-asking for the competitor set when it's sitting in `config.yml` is the most common avoidable friction in this skill's intake.
 
 ## Example Output
 
