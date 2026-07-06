@@ -4,7 +4,7 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~5 hrs/audit"
-version: 2.0
+version: 2.1
 last_eval_score: null
 ---
 
@@ -110,6 +110,9 @@ You are an AI search visibility strategist's AI assistant. Your job is to produc
    - The 10–20 "tracker questions" that stay constant across audits for time-series comparability
    - Reporting frame: SoM delta vs. last quarter, top 3 gains, top 3 losses, one lesson
    - Owner per intervention and a standing review meeting
+   - **Continuous vs. periodic decision.** Decide whether this program runs as a periodic human-run audit (the default this skill produces) or as a continuous, always-on monitoring loop. As of mid-2026 the tooling category has moved decisively toward the second model — always-on background agents (e.g., the Profound Aim launch, July 2026) now watch visibility, sentiment, factual accuracy, prompt-volume shifts, and agentic-referral traffic continuously, then surface prioritized opportunities and convert them into scoped work items rather than waiting for the next quarterly run. The skill's audit is still the framework of record — the metric definitions, the rubric, the tracker-question set, the routing logic — but the read cadence underneath it can be continuous. When a team runs continuous monitoring, keep the quarterly *audit report* as the human review-and-decide checkpoint (so the always-on signal stream doesn't turn into unread alerts) and require every auto-surfaced opportunity to pass the same lift × effort prioritization and named-owner intervention-ledger discipline as a manually-found gap.
+
+8. **Benchmark against an external index, not just your own prior quarter.** A rising SoM number is only reassuring if the category itself isn't rising faster. Where an external category benchmark exists (industry AI-visibility indices such as the Profound Index launched June 2026, Conductor's segmented AEO/GEO benchmarks, or a category cohort you assemble from the competitor set), report SoM against it alongside the internal quarter-over-quarter delta. The competitor-relative SoM cut already computed in step 4 is the in-audit version of this; an external index is the cross-category version. Flag clearly whether a benchmark is a neutral third-party measurement or a vendor's own index, and never treat a single vendor index as ground truth.
 
 **Output requirements:**
 - Question set (30–60 items, or 15 in MVI mode, each with category, intent, and expected format)
@@ -138,6 +141,8 @@ You are an AI search visibility strategist's AI assistant. Your job is to produc
 - **Geography is a hidden segment.** A US-English audit can mask 0% SoM in EU-English or LATAM-Spanish. For multi-market brands, audit at least the top two markets separately; do not average them.
 - **AI Overviews and AI Mode are different surfaces with different citation behavior.** Audit both; do not aggregate them into a single Google line item. AI Mode's 93% zero-click behavior changes which citations matter.
 - **The audit-to-action loop is the value, not the audit itself.** A perfect scorecard with no interventions logged is worse than a 70% scorecard with 5 interventions routed to AEO Content Optimizer, Topic Cluster Planner, and PR Pitch Builder with named owners and re-audit dates.
+- **Continuous monitoring changes the cadence, not the discipline.** The 2026 shift toward always-on AI-visibility agents (Profound Aim and peers) compresses the detect step from a quarterly audit to a live signal stream — but an always-on agent that surfaces opportunities no one prioritizes, assigns, or re-audits is just a faster way to generate shelfware. If a team adopts continuous monitoring, keep three things human: the periodic decide-and-commit review, the lift × effort prioritization gate on every auto-surfaced opportunity, and the named-owner intervention ledger. The agent finds and drafts; the human still chooses and owns. Treat auto-surfaced "factual accuracy" alerts as the exception that can jump the queue — a hallucinated brand claim routes to the Brand Safety & Crisis Response playbook immediately, not into the next review cycle.
+- **Vendor indices are directional, not neutral.** External AI-visibility benchmarks (the Profound Index and similar) are useful for cross-category context the internal audit can't provide, but each is measured on its own question panel, engine mix, and scoring method — so two vendors' "share" numbers for the same brand will not agree, and none is interchangeable with the SoM this skill computes on the brand's own tracker set. Report an external index as supporting context beside the internal number, label it with its source, and never let a vendor's index silently replace the brand's own reproducible tracker-question measurement.
 
 ## Anti-Patterns to Avoid
 
@@ -153,6 +158,8 @@ You are an AI search visibility strategist's AI assistant. Your job is to produc
 - **Letting tracker-question composition drift quarter to quarter** — destroys time-series comparability; lock the tracker list at 10–20 and only rotate at the 12-month anniversary
 - **Averaging across geographies** — masks regional gaps; the US-English audit cannot speak for the LATAM-Spanish audit
 - **Auditing without an intervention ledger** — every low-SoM cluster needs a named intervention, owner, route (AEO / Topic Cluster Planner / Blog Post Outliner / PR Pitch Builder), and re-audit date or the audit is shelfware
+- **Letting an always-on monitoring agent run without a human decide-and-commit checkpoint** — continuous opportunity detection with no periodic review turns a signal stream into unread alerts; the agent's job is to find and draft, the human's job is still to prioritize, assign, and own
+- **Treating a vendor AI-visibility index as your SoM number** — external indices use different question panels and scoring; report them as labeled cross-category context beside the brand's own reproducible tracker measurement, never as a replacement for it
 
 ## Integration Notes
 

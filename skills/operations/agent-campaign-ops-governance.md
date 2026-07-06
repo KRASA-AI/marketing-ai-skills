@@ -4,7 +4,7 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: advanced
 time_saved: "~5 hrs/setup + ongoing risk avoidance"
-version: 1.3
+version: 1.4
 last_eval_score: 9.5
 ---
 
@@ -48,7 +48,7 @@ The full deliverable is eight linked controls. Read the table top-to-bottom as t
 | 3 | Three-phase rollout | Read-only → human-in-the-loop → bounded autonomy | Brief owner + approver | Phase-exit criteria met (e.g., 20+ clean approvals) |
 | 4 | Spend guardrails | Hard limits independent of agent judgment | Approver | Per-action cap + daily cap + anomaly auto-pause, scaled to config |
 | 5 | Approval matrix | Map action class → approver → phase | Approver (primary + backup) | Above-cap / new-surface actions need a named human, every phase |
-| 6 | Audit trail | Log prompt-to-action for every mutation | Independent reviewer | Reviewed weekly for Phase 2/3 accounts |
+| 6 | Audit trail | Log prompt, decision rationale, and action for every mutation | Independent reviewer | Reviewed weekly for Phase 2/3 accounts |
 | 7 | Kill-switch | Stop spend in under five minutes | Any named owner | Drilled quarterly, not just documented |
 | 8 | Campaign-brief template | Turn intent into auditable agent instructions | Brief owner | Mandatory for any Phase 2/3 write action |
 
@@ -126,7 +126,7 @@ You are a marketing-operations and risk strategist's AI assistant. Your job is t
    - Connector authorization / scope change: connector-authorization owner (a deliberately small list)
    - The matrix names a primary and backup for each approver so no action is blocked by one person's absence
 
-6. **Define the audit-trail standard.** Every agent action against a live account is logged with: timestamp, connector, account, tool called, parameters (before / after values for any mutation), the brief or prompt that triggered it, the approver (if Phase 2), and the outcome. The log is reviewable by someone other than the person who ran the agent. Specify where the log lives and the review cadence (recommend weekly for Phase 2/3 accounts).
+6. **Define the audit-trail standard.** Every agent action against a live account is logged with: timestamp, connector, account, tool called, parameters (before / after values for any mutation), the brief or prompt that triggered it, the **agent's stated rationale for the decision** (why this change, what signal or expected impact drove it), the approver (if Phase 2), and the outcome. The rationale field is what turns the log from a record of *what* changed into an explanation of *why* — and it is the single control that closes the "decision-visibility" gap named as the top adoption barrier for agentic buying (see the decision-transparency calibration note). Where a platform agent optimizes bids or budgets on its own logic and cannot expose a rationale, treat that opacity itself as a governance flag, not a neutral default. The log is reviewable by someone other than the person who ran the agent. Specify where the log lives and the review cadence (recommend weekly for Phase 2/3 accounts).
 
 7. **Write the kill-switch procedure.** A step-by-step incident-stop that any named owner can execute in under five minutes: deactivate the connector / revoke the MCP authorization at the platform, pause affected campaigns via the platform UI (independent of the agent), freeze the payment method if spend is runaway, notify the approval owners, and capture the audit log for the post-incident review. The kill-switch must be tested, not just documented — a quarterly drill confirms the named owner can actually execute it.
 
@@ -163,6 +163,8 @@ You are a marketing-operations and risk strategist's AI assistant. Your job is t
 - **Agency multi-account isolation is a distinct problem.** One connector across many client accounts needs per-client scope isolation, per-client consent documentation, and a per-client kill-switch — a single compromised connector cannot be allowed to expose every client's budget. Agencies should treat each client account as its own governance instance.
 - **Re-audit on every new platform MCP.** The MCP ad-surface landscape is expanding fast; each new platform that ships a connector should be brought into the same governance frame (connector selection → scope → phase → guardrails → audit → kill-switch) rather than improvised. The plan is a template to re-run, not a one-time document.
 - **Log the prompt, not just the action.** When a mutation is logged, the brief or prompt that triggered it is the most useful field for the post-incident review — it is the difference between "the agent raised the budget" and "the agent raised the budget because the brief said 'scale aggressively' with no cap." The prompt-to-action link is the audit trail's highest-value column.
+- **Decision-transparency is the real adoption gate — govern for it explicitly.** The barrier to agentic media-buying in 2026 is not capability, it's trust in the black box: mid-2026 surveys put marketer trust in autonomous agent execution around 55% with roughly one in five actively distrustful, and about 45% of executives name *lack of visibility into how the agent decides* as their top blocker (eMarketer / Yahoo DSP findings). The governance answer is not "trust more," it's "make the decision legible": require every delegated optimization to carry a rationale in the audit trail (why this bid/budget/audience move, on what signal, with what expected effect), review those rationales on the weekly Phase 2/3 cadence, and keep the human approval gate on anything above the per-action cap precisely so the agent's judgment is checkable, not just its spend. The IAB's AI Transparency & Disclosure Framework (January 2026) is a useful external reference point for what platform-side disclosure should cover; use it to pressure-test what each connector actually exposes about its decision logic, and treat a platform agent that optimizes on opaque logic it won't explain as a reason to stay in read-and-recommend on that surface, not to grant it write. Explainability you can't get from the platform, you supply with the human-in-the-loop phase.
+- **A platform "agent" is not the same trust tier as a scoped MCP connector.** The wave of platform-native agents (Google's unified Gemini agent across Ads / Analytics / Merchant Center / Marketing Platform; Yahoo DSP's native agentic layer) bundles planning, activation, optimization, and measurement behind one assistant. Convenient, but it concentrates several action classes that this skill deliberately governs separately (reporting vs. budget vs. audience vs. creative vs. connector-scope). Map a platform agent's capabilities onto the same approval matrix you'd apply to discrete MCP tools — do not let "it's the platform's own agent" collapse five governed action classes into one ungoverned "just let it run."
 
 ## Anti-Patterns to Avoid
 

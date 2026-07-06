@@ -63,7 +63,8 @@ Use this as a pre-publish gate; the Creative Brief Generator should capture the 
 
 - **June 10, 2026** — EU Code of Practice on Transparency of AI-Generated Content published (implementation spec for Article 50).
 - **June 2026** — Cannes Lions creative-integrity framework + AI Integrity Handbook announced (mandatory AI disclosure, dual-layer verification, CEO/CMO sign-off, Integrity Council, up to 3-year bans).
-- **August 2, 2026** — EU AI Act Article 50 transparency obligations become enforceable.
+- **June / July 2026** — European Commission publishes draft Guidelines on Article 50 for stakeholder consultation (final version expected ahead of the enforcement date); a July 22, 2026 signatory deadline is attached to the Code of Practice for organizations opting to sign on. Neither changes the underlying obligation — both are implementation-detail milestones to track as the enforcement date approaches.
+- **August 2, 2026** — EU AI Act Article 50 transparency obligations become enforceable (roughly four weeks out as of this update).
 - **December 2, 2026** — Extended deadline for pre-existing generative systems to meet the Article 50(2) machine-readable marking requirement.
 - **January 2026 / January 2027** — California SB 942 in effect / AB 853 in effect.
 
