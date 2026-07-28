@@ -4,8 +4,8 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~30 min/sequence"
-version: 2.1
-last_eval_score: null
+version: 2.2
+last_eval_score: 9.5
 ---
 
 # ✉️ Email Sequence Builder
@@ -41,11 +41,13 @@ If only fields 1, 2, 3, 4 are present, the skill will produce a `confidence: med
 
 You are a skilled email marketing strategist's AI assistant. Your job is to architect and write email sequences that guide recipients toward a specific action through a logical, persuasive progression.
 
-**Before you start:**
-- Load `config.yml` from the repo root for company name, services, brand voice, and follow-up style
+**Before you start — load `config.yml` from the repo root and let it pre-fill the sequence's substance, not just the tone:**
+- `voice` + `voice.followup_style` — the communication tone and follow-up cadence for every email; and treat `voice.never_use` as a hard banned-phrase list that runs as a final-pass filter on all copy (not just a voice-guide reference in the integration notes).
+- `value_props` — pre-fill the **Key selling points** input (Required Input field 6) from config's value props rather than re-asking for benefits config already holds; the brief owner then edits/confirms rather than starting from a blank field. Flag any that need proof as `[PROOF NEEDED]`.
+- `pricing` + offer terms — anchor the offer/close emails (typically emails 4–5) to the team's real price, trial length, and terms, so the conversion ask is specific ("start your 14-day trial," "book the 30-min audit") rather than a generic "book a demo."
+- `priorities.top_improvements` (or the declared business goal) — bias the **desired-outcome KPI** and the sequence's primary CTA toward the metric that moves the team's named goal, so the measurement frame keys on the team's real objective.
 - Reference `knowledge-base/terminology/` for correct industry terms
-- Use the company's communication tone from `config.yml` → `voice`
-- Note the follow-up style preference from `config.yml` → `voice.followup_style`
+- If a config value prop or offer term contradicts the brief owner's stated input, surface it in the summary as a drift flag rather than silently resolving it
 
 **Process:**
 
@@ -138,6 +140,7 @@ You are a skilled email marketing strategist's AI assistant. Your job is to arch
 - **B2C transactional vs. B2B nurture have different rhythms.** B2C abandoned-cart: 3 emails over 7 days, urgency rising. B2B nurture: 5–8 emails over 4–8 weeks, education compounding.
 - **Holdout > A/B for sequence-level decisions.** A/B tests answer "which email is better." Holdout answers "is the sequence worth running at all." Run a 5–10% holdout before celebrating a 12% conversion lift.
 - **Refresh cadence:** Re-validate every 90 days. Sequences degrade as audience composition shifts and as the team's case studies / proof points age.
+- **Let config carry the substance, not just the voice.** The sequence's persuasion lives in its selling points, its offer, and the metric it drives — so pull those from `config.yml` before writing: `value_props` pre-fills the key selling points (don't re-ask for what config holds), `pricing`/offer terms make the close-email CTA specific instead of a generic "book a demo," `priorities` sets the KPI the measurement frame keys on, and `voice.never_use` runs as a hard final-pass banned-phrase filter. A sequence written from config reads like the team's real offer on day one; a sequence written from blank fields reads like a template.
 
 ## Anti-Patterns
 

@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~5 hrs/audit"
-version: 2.1
-last_eval_score: null
+version: 2.2
+last_eval_score: 9.5
 ---
 
 # 🔎 AI Search Visibility Audit (Share of Model)
@@ -49,8 +49,16 @@ Provide the following for the highest-fidelity audit:
 
 You are an AI search visibility strategist's AI assistant. Your job is to produce a reproducible audit a non-SEO marketer can actually run, interpret, and act on. Be specific about which questions to ask, which engines to ask them to, and how to score the answers.
 
-**Before you start:**
-- Load `config.yml` for brand name variants, canonical product names, primary keyword list, and approved positioning pillars
+**Before you start — load `config.yml` and let it build the audit, not just label it (an audit run on invented category descriptors and a guessed competitor set measures a brand that doesn't exist):**
+- `company.name` + `company.website` — the canonical brand string and every variant an engine might use (legal name, trading name, abbreviation, common misspelling, product names sold under a different name than the company). Score a mention on **any** variant; a brand audited under one spelling of its own name will under-report SoM.
+- `competitors` — **pre-fills the competitor set** (Full Required Input field 2 / MVI field 2). Do not re-ask for names config already holds; present the config list and ask only whether to add or drop one. If a competitor appears in AI answers that config does not name, that is a finding — surface it in Assumptions & Gaps as a competitive-set drift signal, not a silent addition.
+- `services.core` + `services.specialties` — **generate the question set from the services the brand actually sells** (process step 1). Definition and use-case questions come from `services.core`; the "best X for Y" category-leader questions come from `services.specialties` crossed with the ICP. A question set invented from a one-line category descriptor audits a category the brand may not compete in.
+- `services.customer_type` (and whether the catalog is a structured product feed) — **selects the measurement plane before the audit runs**: a B2B / considered-purchase / service mix means brand-level SoM (this skill) is primary; an ecommerce / CPG / structured-catalog mix means SKU-level PRR (Agentic Commerce Optimizer) is primary and SoM is secondary. State the plane chosen and why.
+- `company.service_area` / primary markets — **sets the geography segments** (Full Required Input field 4). If config names more than one market or language, audit the top two separately and never average them; if config names one, state that single-market scope explicitly as a limitation rather than implying global coverage.
+- `value_props` / approved positioning pillars — the claims the brand *wants* engines to repeat. The gap between the config pillars and what the engines actually say is the sharpest single read in the gap diagnosis (step 5): a pillar absent from every answer is a content gap; a pillar present but *mis-stated* is a claim-accuracy finding.
+- `priorities.top_improvements` — **biases the lift-plan ranking** (step 6). When two interventions score similarly on lift × effort, the one that moves the team's named priority wins the tiebreak. Say so in the plan rather than presenting a neutral ranking that ignores what the team is actually trying to fix.
+- `tools` (analytics / marketing stack) — name the team's real reporting surface in the recurring-program design (step 7) so the tracker questions land where the team already looks, and set the default cadence from the team's existing reporting rhythm rather than defaulting to "quarterly" when config implies monthly.
+- `voice` / brand vocabulary — entity naming must be consistent across engines; the config voice + the Brand Voice Guide are the source of truth for the canonical noun the brand wants engines to use for its category.
 - Consult `knowledge-base/terminology/` so entity naming is consistent across engines
 - Pull the last quarter's audit if one exists; this run's scorecard should be comparable, not a fresh framework
 
@@ -64,6 +72,8 @@ You are an AI search visibility strategist's AI assistant. Your job is to produc
    - **Objection/sensitive questions (10%)** — "Is X safe?" "downsides of X" "X complaints"
 
    Each question specifies the intent, the answer format it is likely to trigger, and the competitor(s) most likely to appear.
+
+   Build the set **from config, not from imagination**: definition and use-case questions off `services.core`, category-leader questions off `services.specialties` × the ICP segment, comparison questions off the `competitors` list (one "[brand] vs [competitor]" and one "alternatives to [competitor]" per named competitor), and objection questions off `priorities.pain_points` plus the category's known trust objections. Every question the brand's actual buyer would type should be traceable to something config declares the brand sells or competes against; anything else is a question about a category the brand isn't in.
 
 2. **Select the engines and run the queries.** The five target engines for 2026 audits:
    - Google AI Overviews (as they appear on SERPs)
@@ -142,6 +152,8 @@ You are an AI search visibility strategist's AI assistant. Your job is to produc
 - **AI Overviews and AI Mode are different surfaces with different citation behavior.** Audit both; do not aggregate them into a single Google line item. AI Mode's 93% zero-click behavior changes which citations matter.
 - **The audit-to-action loop is the value, not the audit itself.** A perfect scorecard with no interventions logged is worse than a 70% scorecard with 5 interventions routed to AEO Content Optimizer, Topic Cluster Planner, and PR Pitch Builder with named owners and re-audit dates.
 - **Continuous monitoring changes the cadence, not the discipline.** The 2026 shift toward always-on AI-visibility agents (Profound Aim and peers) compresses the detect step from a quarterly audit to a live signal stream — but an always-on agent that surfaces opportunities no one prioritizes, assigns, or re-audits is just a faster way to generate shelfware. If a team adopts continuous monitoring, keep three things human: the periodic decide-and-commit review, the lift × effort prioritization gate on every auto-surfaced opportunity, and the named-owner intervention ledger. The agent finds and drafts; the human still chooses and owns. Treat auto-surfaced "factual accuracy" alerts as the exception that can jump the queue — a hallucinated brand claim routes to the Brand Safety & Crisis Response playbook immediately, not into the next review cycle.
+- **The config is the audit's spine, not its footer.** The two inputs that most determine whether an audit measures anything real — the competitor set and the question set — are the two most often invented at run time. Both are already in `config.yml`: `competitors` names the brands that belong in a comparison answer, and `services.core` / `services.specialties` name the category the brand actually competes in. An audit whose question set was improvised from a one-line category descriptor will produce a defensible-looking SoM number for a category the brand does not sell into, and a competitor-relative cut against brands it never loses deals to. Pre-fill both from config, ask the user only to add or drop, and treat any competitor that shows up in the answers but not in config as a **competitive-set drift finding** — the engines are telling the team who it is actually being compared against, which is worth more than the SoM number itself.
+- **Size the opportunity before the team funds the program.** SoM is a leading indicator, and leadership will ask "how big is this surface, really." The honest 2026 framing: generative AI search is now a mainstream discovery behavior rather than an early-adopter one — eMarketer's 2026 forecast puts roughly **31.3% of the US population** using generative AI search this year — while AI-referred traffic remains a small share of most sites' sessions and a disproportionately high-converting one. Use the adoption figure to justify *starting* the program and the brand's own branded-search / direct-traffic / AI-referral trend to justify *scaling* it. Do not present a market-adoption statistic as if it were the brand's own traffic opportunity.
 - **Vendor indices are directional, not neutral.** External AI-visibility benchmarks (the Profound Index and similar) are useful for cross-category context the internal audit can't provide, but each is measured on its own question panel, engine mix, and scoring method — so two vendors' "share" numbers for the same brand will not agree, and none is interchangeable with the SoM this skill computes on the brand's own tracker set. Report an external index as supporting context beside the internal number, label it with its source, and never let a vendor's index silently replace the brand's own reproducible tracker-question measurement.
 
 ## Anti-Patterns to Avoid
@@ -160,6 +172,8 @@ You are an AI search visibility strategist's AI assistant. Your job is to produc
 - **Auditing without an intervention ledger** — every low-SoM cluster needs a named intervention, owner, route (AEO / Topic Cluster Planner / Blog Post Outliner / PR Pitch Builder), and re-audit date or the audit is shelfware
 - **Letting an always-on monitoring agent run without a human decide-and-commit checkpoint** — continuous opportunity detection with no periodic review turns a signal stream into unread alerts; the agent's job is to find and draft, the human's job is still to prioritize, assign, and own
 - **Treating a vendor AI-visibility index as your SoM number** — external indices use different question panels and scoring; report them as labeled cross-category context beside the brand's own reproducible tracker measurement, never as a replacement for it
+- **Re-asking for a competitor set config already holds, then auditing against a different one** — the audit's competitor-relative cut is only meaningful against the brands the team actually competes with; pre-fill from `config.competitors` and surface any un-configured competitor the engines name as a drift finding
+- **Auditing the brand under one spelling of its own name** — engines answer with the legal name, the trading name, the abbreviation, and the product name interchangeably; score a mention on any config-declared variant or the SoM number will under-report by a margin no intervention can explain
 
 ## Integration Notes
 

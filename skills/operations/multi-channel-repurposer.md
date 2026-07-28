@@ -5,7 +5,7 @@ tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~30 min/piece"
 version: 2.0
-last_eval_score: null
+last_eval_score: 9.4
 ---
 
 # ♻️ Multi-Channel Content Repurposer

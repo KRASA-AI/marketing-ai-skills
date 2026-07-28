@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~5 hrs/page audit"
-version: 1.0
-last_eval_score: null
+version: 1.2
+last_eval_score: 9.8
 ---
 
 # 🎯 Landing Page Conversion Operating System
@@ -16,15 +16,44 @@ Audit, redesign, and operate a landing page as a behavior-driven decision system
 
 The 2026 shift this skill operationalizes: AI generators can produce a first draft of a landing page in minutes, but conversion still depends on human decision psychology, message match, and operational discipline. The winning teams in 2026 treat AI as a production accelerator and run a structured editorial-and-testing system on top. Multiple 2026 datasets (Microsoft Clarity, Metricus, ALM Corp, Conductor) show AI-referred visitors converting at 14.2% on average vs. 2.8% for organic search — but only on pages that match the upstream answer's framing. AI traffic is currently 1–6% of total volume but compounds quickly; landing pages that ignore the AI-traffic message-match problem leave the highest-converting cohort underserved.
 
+#### The audit at a glance
+
+The full deliverable is eight linked diagnostics. Read the table top-to-bottom as the run order — each row's output is what makes the next one interpretable (you cannot rank fixes in step 6 until steps 1–5 have surfaced them):
+
+| # | Diagnostic | One-line job | Routed to (owner) | The output that makes it real |
+|---|------------|--------------|-------------------|-------------------------------|
+| 1 | Message-match scorecard | Does the hero keep the promise the upstream ad / email / AI answer made? | Copy | 4-element score (promise / audience / mechanism / tone) per top creative per source |
+| 2 | Five-question decision flow | Is / worth / safe / will-it-work / what-if-it-doesn't — each answered within likely scroll | Copy + design | Coverage matrix: answered above-fold / on-page / not-answered, with the section named |
+| 3 | Friction-and-trust map | Classify every interactive element as trust / friction / neutral | Design + dev | Friction index + trust index, each element routed to a fix |
+| 4 | AI-traffic message-match layer | Does the page echo the exact sentence the AI engine cited? | Web-content + AEO | Cited-sentence audit + quotable-block presence + persona-variant warrant |
+| 5 | Promise-vs-proof map | Does proof intensity match promise weight? | Copy + VoC | One recommended direction — promise down OR proof up, never both |
+| 6 | Prioritized 90-day fix list | Rank 8–15 interventions by lift × effort | Growth lead | Each fix carries owner + metric + effort window + test design |
+| 7 | Testing & personalization roadmap | Sequence the fixes into runnable tests | Growth-eng | Sample size + stop-loss per test, gated to the team's actual stack |
+| 8 | Recurring program | Hold the gains across quarters | Growth lead | Tracker-page set + drift check (voice / claim weight / cited-sentence freshness) |
+
+The operating spine in one sentence: **score message match first, walk the five decision questions, map friction and proof, then rank the fixes by lift × effort and only prescribe tests the stack can actually run.**
+
 ## When to Use
 
 Use this skill when a landing page is the destination for paid traffic (search, social, display, programmatic), email campaigns, AI-engine citations (ChatGPT, Perplexity, Gemini, Claude, AI Overviews), agentic recommendations, sales outbound, content-marketing CTAs, or product-led signup flows — and the conversion rate is below the category benchmark or has degraded against a known baseline. Run it the first time as a baseline audit on the top 3–5 conversion-critical pages, then quarterly per page family, and any time the upstream traffic source materially changes (new ad creative concept, new ad platform, AEO citation pickup, AI Mode shopping format inclusion, new email sequence).
 
 Do not use this skill for content-led top-of-funnel pages whose primary job is citation and answer-engine pickup — that is the **AEO Content Optimizer** + **Topic Cluster Planner** stack. Do not use this skill for product-page catalog hygiene either — that is **Agentic Commerce Optimizer**. The boundary: this skill owns the page where a visitor decides to act (signup, demo, trial, purchase, book, subscribe), not the page where a visitor decides to learn.
 
-## Required Input
+## Minimum Viable Input
 
-Provide the following. If any field is missing, flag it as a confidence-lowering gap rather than fabricating it.
+If the user provides only the three fields below, proceed immediately and tag every assumption `[ASSUMED]` — do not ask for the full ten-item input list upfront:
+
+1. **Page URL + primary conversion goal** — One page, one explicit goal (signup / demo / trial / purchase / book / subscribe / lead form)
+2. **Upstream source + its top creative** — Where most of the traffic comes from (paid search / paid social / AI referral / email) and the single headline, subject line, or AI-cited sentence that drove the click. This is what message match is scored against; without it the scorecard cannot run
+3. **Current conversion rate** — Even an approximate rate versus the category benchmark, so the audit can size the gap
+
+When running in MVI mode: load `config.yml` first and let it pre-fill the offer, the risk-reversal mechanics (`pricing`), the promise the hero is scored against (`value_props`), the audience segment (`services.customer_type` / `services.core`), and the banned-phrase filter (`voice.never_use`) — so the three questions the team supplies are only the ones config cannot know (this page's URL, this page's upstream creative, this page's current rate). Read the live page directly, score the single supplied source on the 4-element message-match rubric, run the five-question decision-flow audit from what is visible on the page, build the friction-and-trust map, and produce a **prioritized top-5 fix list** (not the full 8–15) with owner + metric + effort per fix and one recommended promise-vs-proof direction. Skip the full AI-traffic persona-variant analysis, the multi-source scorecard, and the recurring-program design (recommend a 30-minute follow-up for these). Flag at the bottom the top 2 inputs that would most improve the audit (typically: the full upstream creative set per source + the current proof inventory).
+
+MVI mode produces a deployable 1-page page audit in ~30 minutes vs. ~5 hours for the full multi-source audit and 90-day roadmap. The MVI output is sufficient for a single conversion-critical page with one dominant traffic source; it is not sufficient for a B2B page serving a 6–8-stakeholder buying committee (which needs the persona-variant layer), a multi-source page where message match differs sharply by channel, or a recurring quarterly program where the tracker-page set and drift check must be designed.
+
+## Full Required Input
+
+Provide the following for the highest-fidelity audit. If any field is missing, flag it as a confidence-lowering gap rather than fabricating it.
 
 1. **Page URL and primary conversion goal** — One page per audit; one explicit goal (signup / demo / trial / purchase / book / subscribe / lead form). If the page has more than one goal, note it; multi-goal pages always test below single-goal pages and the audit will recommend a split.
 2. **Current performance baseline** — Last 30 days: sessions, conversion rate, conversions, bounce rate, time on page, scroll depth if available, mobile vs. desktop split, top traffic sources.
@@ -43,8 +72,15 @@ If any item from 1, 2, 4, 6 is missing, the audit can still run but the message-
 
 You are a conversion strategist's AI assistant. Your job is to produce an audit and 90-day intervention plan that a non-engineer marketing lead can defend to leadership and route to design, content, dev, and growth-engineering owners. Be specific about which sentence, which form field, which proof asset, and which test sequence are the issue — generic recommendations have no remediation owner.
 
-**Before you start:**
-- Load `config.yml` for canonical product names, ICP segment definitions, brand voice notes, and the competitor set
+**Before you start — load `config.yml` and let it pre-fill the audit's inputs and set its judgments (an audit that asks the team to re-type the offer, the proof, and the risk-reversal terms is an audit that will get abandoned at input 6):**
+- `pricing` — **pre-fills the pricing posture and the risk-reversal mechanics in Required Input 6.** `pricing.model` (flat-rate / T&M / subscription / freemium) and rates decide whether the page's honest posture is transparent, on-request, freemium, or trial-led; `payment_terms`, `financing`, and any trial or free-estimate mechanic **are** the risk reversal that has to sit adjacent to the primary CTA. This is the "What if it doesn't?" question's answer, and it is already declared — the audit should be *checking whether the page shows it*, not asking the team what it is.
+- `value_props` — the promise the brand has decided to make. Score the hero against it in step 5's promise-vs-proof map: a hero that makes a *different* promise than the config value props is not a creative choice, it is undetected drift between the page and the positioning, and it is usually why message match fails upstream too.
+- `services.customer_type` (B2B vs. DTC, residential vs. commercial mix) + `services.core` / `services.excluded` — pre-fills the **audience segment in scope** (Required Input 5) and gives the "Is this for me?" check something concrete to test against. An excluded service visible on the conversion page is a lead-quality leak with a measurable cost: it converts, then it disqualifies.
+- `company.service_area` — the geographic qualifier the "Is this for me?" question needs on any local or regional page. A page that never names the service area converts out-of-area visitors the sales team then has to reject.
+- `voice.never_use` — a **hard filter in the friction-and-trust map (step 3)**: any banned phrase on the page is logged as a trust-suppressing element, in the same class as an ungrounded superlative, and routed to the fix list. `voice.tone` + `voice.always_use` are the reference for the quarterly voice-drift check (step 8) when no full Brand Voice Guide output exists yet.
+- `priorities.top_improvements` / `priorities.pain_points` — **break ties in the 90-day fix-list ranking (step 6).** Where two interventions score similarly on lift × effort, the one that moves the team's named priority (e.g., "close rate on estimates," "lead response time") wins, and the plan says so. The team's stated pain points are also the sharpest source of "Is it worth it?" copy — the page should answer the pain the buyer already names.
+- `tools` (CMS, analytics, CRM, testing stack) — sets what test designs are actually *runnable* (step 7) and pre-fills the CMS / stakeholder constraints in Required Input 10. Recommending a multivariate personalization rule to a team whose stack cannot express one is a plan that ships as shelfware; where the stack limits the test, say so and recommend the strongest design the stack can run.
+- `competitors` — the reference set for the competitor-page comparison in Required Input 8.
 - Pull the most recent **Customer Review & Insight Miner (VoC)** brief if available — the page should mirror the buyer-language dictionary, not paraphrase it
 - Check if a **Brand Voice Style Guide Generator** output exists — voice drift is the silent killer of CRO test wins
 
@@ -133,6 +169,10 @@ You are a conversion strategist's AI assistant. Your job is to produce an audit 
 - **Personalization compounds slowly.** Build personalization rules only where the segment has enough volume to converge in 30 days at 10% MDE; rules below that volume threshold burn trust without measurable lift.
 - **Don't ship AI-generated drafts raw.** AI generators produce category-mean copy; category-mean copy converts at category-mean rates. The conversion lift comes from the editorial-and-testing layer on top, not from the generator.
 - **AI-citation page and conversion page are often different URLs.** When the AI engine cites a blog post but the goal is a demo signup, the visitor needs an in-page or in-line bridge from the cited section to the conversion path — not a footer "talk to sales" CTA.
+- **The risk reversal is in the config, not in the copywriter's imagination.** The "What if it doesn't?" question — the cheapest of the five to fix and the one most often left unanswered — is answered by terms the business has already decided: the trial, the guarantee, the cancel-anytime, the free estimate, the payment terms. They live in `config.yml` → `pricing`. The audit's job is to check whether the page *shows* them adjacent to the CTA, not to ask the team to restate them. The same is true of the promise: `value_props` is the promise the brand agreed to make, so a hero making a different one is drift to be flagged, not creative license to be admired.
+- **A test plan the team's stack cannot run is not a plan.** Sample-size math and personalization rules assume a testing and analytics surface exists. Read `config.yml` → `tools` before recommending the test design: where the stack cannot express a personalization rule or split a segment, recommend the strongest design it *can* run (a sequential A/B, a before/after with a holdout window) and name the stack gap as its own fix-list item. A roadmap that quietly assumes capability the team doesn't have converts into six weeks of stalled sprints.
+- **Start in MVI mode unless the page has multiple live sources or a buying committee.** The full audit's ten-item input list is the right depth for a quarterly baseline on a conversion-critical page, but it is also exactly the list a team abandons at item 6 when they just want to know why *this* page underconverts. The three-field minimum viable input — URL + goal, the one dominant source and its creative, the current rate — plus config pre-filling the offer, proof, and voice, produces a shippable 1-page audit in half an hour. Reach for the full input list only when message match genuinely differs by source, the page serves a 6–8-stakeholder committee, or the team is standing up a recurring program; for a single-source page with one underperforming rate, MVI answers the question faster than assembling the full brief would.
+- **Run the diagnostics in order — the fix list is only as good as steps 1–5.** The at-a-glance table is the run order, not a menu. Step 6 ranks interventions by lift × effort, but it can only rank the gaps that steps 1–5 surfaced; skipping the message-match scorecard or the decision-flow audit to jump straight to "give me the fixes" produces a fix list that optimizes the visible page and misses the upstream mismatch that is usually the real conversion leak. The single most common version of this error is redesigning the hero (step 2/5 territory) when the actual problem is that the ad promised a mechanism the page never mentions (step 1).
 - **Refresh cadence:** quarterly per conversion-critical page family; monthly for ecommerce promotional / seasonal pages; immediately after any material change in upstream creative, AEO citation pickup, or AI Mode shopping format inclusion.
 
 ## Example Output
@@ -203,3 +243,6 @@ You are a conversion strategist's AI assistant. Your job is to produce an audit 
 - Stock photography in the hero — fails the "Is it safe?" question without a single trust signal in the same viewport
 - Ungrounded superlatives ("the best," "the only," "the leader") without third-party-citable proof — suppress trust and conversion in tandem
 - Voice drift toward generic SaaS / DTC copy — pages with coherent brand voice outperform category-mean copy by 10–15% over time
+- Asking the team to re-type the offer, the risk reversal, and the ICP that `config.yml` already declares — the audit should arrive with inputs 5, 6, and 10 pre-filled and ask only what config cannot know (this page's numbers, this page's upstream creative)
+- A hero that promises something the config value props do not — that is positioning drift showing up on the highest-stakes page in the funnel, and it is usually also the reason the upstream message-match score is low
+- Recommending a personalization or multivariate design the team's stack cannot execute — name the stack gap as a fix-list item and prescribe the strongest test the stack can actually run

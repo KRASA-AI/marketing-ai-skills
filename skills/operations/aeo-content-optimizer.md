@@ -5,7 +5,7 @@ tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~45 min/piece"
 version: 2.1
-last_eval_score: null
+last_eval_score: 9.4
 ---
 
 # 🔍 Answer Engine Optimization (AEO) Content Optimizer

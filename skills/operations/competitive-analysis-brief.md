@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~90 min/brief"
-version: 2.2
-last_eval_score: 9.4
+version: 2.3
+last_eval_score: 9.5
 ---
 
 # 🔍 Competitive Analysis Brief
@@ -22,11 +22,11 @@ Use this skill when entering a new market, preparing for a board or QBR deck, re
 
 If the user provides only the three fields below, proceed immediately with the brief and tag every inferred item `[INFERRED]` and every confidence-limited data point `[UNVERIFIED]`. Do not ask for more information upfront.
 
-1. **Competitor(s)** — Company name(s) and URL(s); 1–5 max
-2. **Your positioning context** — One sentence on what your company does and who for
+1. **Competitor(s)** — Company name(s) and URL(s); 1–5 max. If `config.yml` declares a `competitors` set, that *is* the default subject list — the user only needs to confirm, add, or drop rather than re-type it
+2. **Your positioning context** — One sentence on what your company does and who for (pulled from `config.yml` `value_props` + positioning where present, so the user's own side is not re-typed)
 3. **Goal of the brief** — Pick one: battlecard / messaging refresh / pricing review / new-market entry / board landscape
 
-When running in MVI mode: scrape publicly available signals (homepage hero, pricing page, G2 rating + review count, LinkedIn headcount band, recent press), infer GTM motion from product + pricing page signals, and label every inference. If a competitor has no public pricing, mark "not disclosed" — do not guess. Ask the user at the end of the output to confirm or correct the three highest-impact inferred items.
+When running in MVI mode: load `config.yml` first so the competitor set, the user's positioning baseline, and the user's pricing are pre-filled and only the competitors' public side is researched; then scrape publicly available signals (homepage hero, pricing page, G2 rating + review count, LinkedIn headcount band, recent press), infer GTM motion from product + pricing page signals, and label every inference. If a competitor has no public pricing, mark "not disclosed" — do not guess. Ask the user at the end of the output to confirm or correct the three highest-impact inferred items.
 
 **Brief-type shortcuts.** Based on the goal, the following steps are emphasized or abbreviated:
 
@@ -52,8 +52,12 @@ Provide the following for the highest-fidelity brief:
 
 You are a competitive-intelligence strategist's AI assistant. Your job is to turn source material into a defensible, action-oriented brief — not a feature matrix. Conclusions matter more than data dumps.
 
-**Before you start:**
-- Load `config.yml` from the repo root for the user's own positioning, value props, ICP, and pricing
+**Before you start — load `config.yml` and let it pre-fill the brief's subject set and its baseline, not just the voice (a competitive brief that asks the team to re-type the competitor list config already holds, and then plots the user's company from imagination, is a brief that measures the wrong set against the wrong baseline):**
+- `competitors` — **pre-fills the competitor set (Required Input 1 / the MVI competitor field).** Present the config list and ask only which to add or drop for *this* brief, rather than asking the team to name competitors from scratch. Two higher-value moves fall out of this binding: (a) if the goal skill is run alongside the **AI Search Visibility Audit** and an engine names a competitor that `config.competitors` does not, surface it as a **competitive-set drift finding** — the market is positioning a rival into your category that your own competitor list has not caught up to, and that finding is often worth more than the threat-score table itself; (b) a competitor in config that no longer appears in any channel, review site, or engine answer is a candidate to *retire* from the watch set, which keeps the brief force-ranked instead of sprawling.
+- `value_props` + positioning statement — **the baseline the whole brief plots against.** The "Our company" column in the messaging teardown (step 2), the user's placement on the positioning map (step 3), and the SWOT's strengths/weaknesses (step 7) are all drawn *relative* to this. Do not synthesize the user's own positioning from the competitor set; load it from config so the brief argues from the positioning the team actually decided, and flag any place a competitor already owns a `value_prop` the team believes is theirs.
+- `pricing` — the user's own tier, model, and anchor are ground truth for the pricing & packaging comparison (step 5); config supplies your side of the table so only the competitors' side is inferred (and marked "not disclosed" where it isn't public).
+- `services.core` / `services.customer_type` — the ICP and category frame that should drive the positioning-map **axis choice** (step 3, the highest-leverage decision in the exercise) and the segment lens for the SWOT. Axes should be drawn in terms that cost *these* competitors a trade-off in *this* ICP, not generic 2x2s.
+- `priorities.top_improvements` / `priorities.pain_points` — **break ties in the strategic-response ranking (step 8).** Where two responses score similarly, the one that advances the team's named priority (e.g., "win more competitive displacements," "raise win rate against [named rival]") is sequenced first, and the brief says so.
 - Reference `knowledge-base/terminology/` for correct industry terms
 - If source material is thin, explicitly list what's inferred vs. observed and flag confidence level
 - Never invent competitor pricing, revenue, or headcount — mark unknowns as "not disclosed"
@@ -134,6 +138,7 @@ You are a competitive-intelligence strategist's AI assistant. Your job is to tur
 - **Do not conflate market leader with threat leader.** The largest competitor is sometimes slow enough to be the easiest to attack. The #3 challenger closing fast — higher G2 momentum score, new funding, accelerating hiring — is often the bigger medium-term threat. Track velocity, not just position.
 - **A research gap is a deliverable.** If pricing is not disclosed, the brief's job is to say so and name what would close the gap (RFP bid, analyst call, win/loss interview), not to guess. Named research gaps are more useful than confident estimates based on thin data.
 - **AI-engine citation share is now a tier-1 competitive signal.** Run the **AI Search Visibility Audit** skill first and bring its Share-of-Model numbers into the brief. A competitor cited 3× more often in ChatGPT or Perplexity on category-leader questions is a pipeline threat even if their organic site traffic looks flat — they are being recommended before the buyer reaches your website.
+- **The config competitor set is a prior to pressure-test, not a fence.** Loading `config.yml` `competitors` as the pre-filled subject list is what stops the brief from analyzing a set the team typed from memory — but the highest-value output of that binding is the *mismatch*: a rival the engines, review sites, or paid-SERP scrape keep naming that config does not list is a **competitive-set drift finding**, and it usually means the market has re-drawn the category faster than the watchlist. Surface it explicitly ("named by ChatGPT on 4/10 category questions; absent from `config.competitors` — recommend adding to the watch set"). The inverse is also a finding: a config competitor that has gone quiet across every channel is a candidate to retire, which keeps the force-rank honest. The config set decides where the brief *starts*; the drift check decides whether the set is still right.
 - **Seer Interactive May 2026 (25.1M impressions):** 93% AI Mode zero-click rate; organic CTR drops 61% on AI-feature SERPs. Competitors who appear in AI-engine answers are reaching buyers who will never show up in your competitor's GA4 organic traffic data — which means traditional traffic-based competitive analysis systematically underestimates AI-first competitors.
 - **Avoid static feature checklists.** Feature parity is table stakes in 2026; the threat story lives in proof stack depth, category language ownership, channel presence, and AI-engine citation share — not in a ✅ / ❌ grid. A feature checklist is a comparison; a positioning map is a brief.
 - **The messaging teardown's most actionable output is the language signatures section.** Competitor brands that own specific phrases in the category ("revenue intelligence," "predictive pipeline," "deal room") have established a category-language moat. If those phrases appear in your copy too, you are reinforcing their category ownership. Find the phrase they cannot own and build your content strategy around it.

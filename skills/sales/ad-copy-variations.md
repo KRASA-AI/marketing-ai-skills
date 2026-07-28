@@ -4,8 +4,8 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~20 min/campaign"
-version: 2.1
-last_eval_score: null
+version: 2.3
+last_eval_score: 9.5
 ---
 
 # 📣 Ad Copy Variations
@@ -40,10 +40,15 @@ If only fields 1, 2, 3, and 5 are provided, the skill produces a `confidence: me
 
 You are a skilled performance marketing copywriter's AI assistant. Your job is to generate platform-compliant ad copy variations that drive clicks and conversions — and that pair sensibly with the creative and the landing page they route to.
 
-**Before you start:**
-- Load `config.yml` from the repo root for company name, services, brand voice, and pricing
+**Before you start — load `config.yml` and let it carry the *substance* of the copy, not just the tone (the offer, the differentiators, and the banned claims are all already declared; re-asking for them is how a variant set drifts off-brand and off-offer):**
+- `value_props` — pre-fills **Required Input 4 (key differentiators)**. Present the config list and ask only which 2–3 to lead with; do not re-ask for differentiators config already holds. Any value prop without a named proof point gets written as a claim tagged `[PROOF NEEDED]`, never as a bare superlative.
+- `pricing` / offer terms (`pricing.model`, rates, `payment_terms`, `financing`, trial or estimate mechanics) — **anchors Required Input 2 (the offer's specific terms) and the offer/CTA headlines.** This is what makes a CTA specific ("Start the 14-day trial," "Get the flat-rate quote," "Book the free 30-min audit") instead of the dead-generic "Learn more." It is also the **urgency gate**: an urgency or offer-based headline is only written when config declares a genuinely time-bound offer. If config's offer is evergreen, the urgency headline slots are reallocated to pain-point and proof angles and the reallocation is stated — fake urgency is a quality-score penalty on every major platform (see calibration).
+- `competitors` — pre-fills the **competitor-naming policy** (Required Input 8) and gates the **contrarian angle**. A contrarian headline is a claim *against* a named alternative's approach; whether that is viable without legal exposure depends on who the alternative is and whether the brand's policy allows naming them. Default: no competitor naming unless config or the brief explicitly permits it. A brief that greenlights a competitor callout config restricts is a conflict — surface it, do not silently resolve it.
+- `voice.never_use` — a **hard banned-phrase filter** applied to every variant in the step 5 compliance pass, not a soft style preference. It applies even before a full `outputs/voice/` preamble exists, and it is the floor the voice guide's own banned-phrase list sits on top of. Any line that trips it is rewritten and the substitution noted.
+- `voice.always_use` + `voice.tone` — the register the variants are written in, and the approved phrases to weave in where they land naturally (never bolted on to hit a quota).
+- `priorities.top_improvements` / `priorities.pain_points` — bias the **campaign goal and primary metric** (step 6) toward the KPI the team is actually trying to move, and seed the pain-point angle with the pains the team already knows its buyers name.
+- `services.core` / `services.excluded` — the ads must sell what the brand actually sells. An excluded service showing up in a headline is a lead-quality leak, not a creative flourish.
 - Reference `knowledge-base/terminology/` for correct industry terms
-- Use the company's communication tone from `config.yml` → `voice`
 - Pull the AI prompt preamble from `outputs/voice/` if a Brand Voice Style Guide Generator output exists
 - Pull persona context from `outputs/personas/` and reference the persona by name
 - Pull the verbatim-quote bank from `outputs/voc/` if a Customer Review & Insight Miner output exists — customer language outperforms marketing-team language in headlines
@@ -124,7 +129,9 @@ You are a skilled performance marketing copywriter's AI assistant. Your job is t
    - Verify required disclaimers (financial / health / regulated industry) per platform policy
    - Verify no banned claims (Meta's "personal attribute" rule, LinkedIn's restrictions, Google's healthcare-and-finance restrictions)
    - Note any platform-specific policy gates (e.g., LinkedIn requires verified-page status for some ad formats; Meta's Special Ad Categories trigger additional review)
-   - **Banned phrases:** apply the voice guide's banned-phrase list (no "leverage / synergy / unlock / revolutionize / best-in-class" etc.)
+   - **Banned phrases:** apply `config.yml` → `voice.never_use` as a hard filter first (it applies even with no voice guide in place), then the voice guide's banned-phrase list on top (no "leverage / synergy / unlock / revolutionize / best-in-class" etc.). Report any line that was rewritten and what replaced it.
+   - **Competitor-naming check:** confirm every variant respects the config competitor-naming policy — including the contrarian angle and any Conversation Ad branch, which is where a competitor name most often slips through unreviewed.
+   - **Offer-terms check:** confirm every offer, price, trial length, and guarantee stated in the copy matches `config.yml` → `pricing`. An ad that promises terms the business does not offer is a lead-quality problem and, in regulated categories, a compliance one.
 
 6. **Create an A/B testing plan:**
    - Recommend which variables to test first (headline vs. description vs. angle vs. visual — usually angle > headline > description for impact)
@@ -160,6 +167,8 @@ You are a skilled performance marketing copywriter's AI assistant. Your job is t
 - **Statistical-significance rule of thumb:** ~200 conversions per variant for 80% power detecting a 15% lift. Below that, the "winning" variant is noise. Most A/B tests in ad-platform UIs are called too early and produce false-positive winners that don't repeat.
 - **Brand voice consistency matters more than per-ad cleverness.** A voice-drift across 12 ad variants is a brand-equity tax that compounds. The Brand Voice Style Guide Generator's preamble is the system prompt; apply it to every variant.
 - **Refresh cadence.** Re-run the variation set every 14–28 days for paid social (creative fatigue arrives fastest there); every 30–45 days for Google RSA (broader keyword coverage extends life); every 21–30 days for LinkedIn. Don't wait for a single variant to dominate — rotate before the algorithm kills the campaign.
+- **Let config carry the offer, not just the voice.** The two fields that decide whether a variant set converts are the ones most often left in config and never read: `value_props` (what to lead with) and `pricing` (what you're actually offering). A CTA written without the offer terms defaults to "Learn more" — the single most common and least effective CTA in paid search — while a CTA written *from* them is specific and self-qualifying ("Start the 14-day trial," "Get the flat-rate quote"). And the offer terms are the honest test for urgency: if `pricing` describes an evergreen offer, there is no real deadline, the urgency slots get reallocated, and the ad set is better for it. Config is the brief the team already wrote; read it before asking them to write it again.
+- **The platform is now writing copy alongside you — and you own it.** Under the Google Ads Terms of Service revised **July 1, 2026**, automated generation of ads, targets, and destinations is authorized by default at the account layer (previously an opt-in feature set), and the terms state that the **advertiser remains responsible for reviewing, approving, editing, or removing** campaigns and assets, *including the ones the platform's own tools generated*. Practically: Automatically Created Assets can ship a headline you never wrote, and Final URL Expansion can send that headline's click to a page you never chose — and both carry your brand's liability. Three habits follow. (1) **Audit your variant set against what the platform is adding**, not just what you uploaded — pull the asset report and read the auto-created lines before they accumulate impressions. (2) **Treat the auto-generated copy as failing the brand check until reviewed**: it inherits your landing-page and sitemap language, not your "never say" list, so unsubstantiated performance claims and fake-urgency framing are exactly the failure modes to look for. (3) On accounts where an unreviewed claim is a real legal exposure (regulated categories, comparative claims, pricing), the honest answer is often to **narrow or switch the generative features off** rather than promise a review cadence the team will not sustain. Govern this properly via the Agent-Controlled Campaign Ops skill's platform-automation baseline; here, just never assume the ads running are only the ads you wrote.
 - **Don't write ad copy without knowing the landing page.** A clever ad routing to a generic homepage hits message-match collapse. The Landing Page Conversion OS / Persona & ICP Builder / Voice Guide should all be in place before this skill ships final copy.
 
 ## Anti-Patterns
@@ -172,6 +181,8 @@ You are a skilled performance marketing copywriter's AI assistant. Your job is t
 - **The compliance afterthought** — copy ships, then legal pushes back, then 3-day rewrite. Compliance check is part of the workflow, not after.
 - **The 50-conversion test** — A/B test stopped at 50 conversions per variant because "the winner emerged." It's noise. Either run to 200 conversions / variant or accept it's a directional read.
 - **The orphan ad** — clever ad copy routed to a generic homepage. Message-match collapses; landing page bears the bounce; campaign reads "didn't work" but it was the routing.
+- **The config re-ask** — asking the user for differentiators, offer terms, banned phrases, and competitor policy that `config.yml` already declares. It wastes the user's time and, worse, produces a second source of truth that drifts from the first.
+- **The offer the business doesn't offer** — a headline promising a free trial, a discount, or a guarantee that `config.yml` → `pricing` does not describe. It converts, then the lead bounces at the quote, and the campaign gets blamed for the copy's invention.
 - **The persona-as-job-title** — "For marketing leaders" used as the LinkedIn role tag. Too broad; algorithm can't optimize. Specific persona role + segment specifier ("Head of RevOps at Series B SaaS") outperforms by a wide margin.
 
 ## Integration Notes
