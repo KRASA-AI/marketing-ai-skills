@@ -4,7 +4,7 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~6 hrs/audit"
-version: 1.1
+version: 1.2
 last_eval_score: 9.5
 ---
 
@@ -14,7 +14,7 @@ last_eval_score: 9.5
 
 Audit and harden how a brand and its product catalog are interpreted, trusted, and recommended by AI shopping agents (ChatGPT, Microsoft Copilot, Perplexity, Google AI Mode, Gemini, Claude, Yelp, agentic-mode commerce platforms). Produces a machine-readability scorecard, a protocol-readiness map across the major agentic commerce standards (ACP, UCP, Shopify Agents, Amazon Buy for Me, Klarna Agent Mode, Mastercard Verifiable Intent, Stripe Machine Payments, x402, Visa Ready, Google Agentic Checkout), an ICP "agent persona" question set with answer-trail capture, and a prioritized 90-day fix list scoped to product data, schema, feed hygiene, agent-discoverable proof signals, and checkout-API exposure.
 
-The 2026 shift this skill operationalizes: AI agents are now executing transactions on behalf of users, not just answering questions. Visibility in the AI answer layer (Share of Model) and visibility in the AI commerce layer (agent recommendation share) are different problems with different fixes. AEO and Share of Model audits address content-mediated discovery; this skill addresses catalog-, feed-, schema-, and protocol-mediated agent recommendation and purchase. Salesforce reported ~$70B in AI-agent-mediated GMV during Cyber Week 2025 (about one in five orders), Shopify reported AI-driven orders growing 15× in 2025, and McKinsey estimates the global agentic commerce opportunity reaches $3T–$5T by 2030; the optimization layer is moving from optional to table-stakes for transactable categories.
+The 2026 shift this skill operationalizes: AI agents are now executing transactions on behalf of users, not just answering questions. Visibility in the AI answer layer (Share of Model) and visibility in the AI commerce layer (agent recommendation share) are different problems with different fixes. AEO and Share of Model audits address content-mediated discovery; this skill addresses catalog-, feed-, schema-, and protocol-mediated agent recommendation and purchase. Salesforce reported ~$70B in AI-agent-mediated GMV during Cyber Week 2025 (about one in five orders), Shopify reported AI-driven orders growing 15× in 2025, and McKinsey estimates the global agentic commerce opportunity reaches $3T–$5T by 2030; the optimization layer is moving from optional to table-stakes for transactable categories. Salesforce's **Agentforce Commerce** (Shopper Agent, Buyer Agent, Merchant Agent — GA July 6, 2026, with native ChatGPT / Google Search AI Mode / Gemini app integration following) is a cross-surface entrant alongside UCP and ACP, and it shipped the category's first named adopter-vs-non-adopter lift figure: retailers running their own shopper agents grew sales **59% faster** than retailers that did not, against a backdrop of AI influencing an estimated **20% of global online sales (~$262B)** in 2025 holiday shopping. Use the 59%-faster figure as the business-case anchor when a stakeholder asks "why prioritize this over a content project."
 
 ## When to Use
 
@@ -54,6 +54,7 @@ You are an agentic commerce optimization strategist's AI assistant. Your job is 
 
 1. **Map the agent surfaces in scope.** For the brand's category, list the agentic commerce surfaces that could plausibly recommend or transact a SKU within the next two quarters:
    - **AI assistants with checkout** — ChatGPT (ACP), Microsoft Copilot Checkout, Perplexity Shopping, Gemini, Claude (where supported)
+   - **Cross-surface agent platforms** — Salesforce Agentforce Commerce (Shopper Agent, Buyer Agent, Merchant Agent; GA July 6, 2026, integrating into ChatGPT, Google Search AI Mode, and the Gemini app) — relevant for any brand on Commerce Cloud or evaluating a vendor-run agent layer rather than building protocol enrollment in-house
    - **Walled-garden agentic shopping** — Shopify Agents, Amazon Buy for Me, Klarna Agent Mode, Google Agentic Checkout
    - **Service / booking agents** — Yelp AI Assistant (bookings, reservations, services), category-specific equivalents (OpenTable, Resy, ZocDoc, Thumbtack, Vagaro)
    - **Open-protocol payment / verifiable-intent** — Stripe Machine Payments, x402 (Coinbase / Cloudflare), Mastercard Verifiable Intent, Visa Ready
@@ -124,6 +125,7 @@ You are an agentic commerce optimization strategist's AI assistant. Your job is 
 - **Don't stretch one prompt set across categories.** Service and booking categories (dental, salon, contractor) score on availability and proximity; consumer goods score on price, speed, and ratings; SaaS scores on integration and pricing transparency. Use category-appropriate prompts per audit.
 - **The agent layer is changing weekly.** Mark the surface map with a "verified-on" date and re-verify before any quarterly readout — protocol terms, walled-garden inclusion criteria, and surface availability shift faster than any other layer in marketing technology in 2026.
 - **Scope the protocol map to the team's real stack, not the full catalog of standards (sharpened v1.1).** The protocol-readiness map is only useful if it's filtered through `config.yml` `tools`: a Shopify + Stripe shop and a custom-platform shop face completely different effort curves for the same enrollment, and recommending an enrollment the declared stack can't reach without a re-platform is a non-actionable line item. Pre-fill the reachable protocols from the config stack, then rank within that set. Likewise, judge the price/speed gap against the team's declared `pricing` before escalating to merchandising — a "loses on price" finding means something different for a premium-positioned brand than a value one.
+- **Vendor-run agent platforms are a build-vs-buy decision, not an extra protocol row (new v1.2).** Salesforce's Agentforce Commerce is a different animal from ACP/UCP/x402: it is a vendor-operated agent that reads your Commerce Cloud catalog directly rather than a protocol you implement against. For a brand already on Salesforce Commerce Cloud, evaluating Agentforce Commerce belongs in Step 1 as a lower-effort path to agent-mediated transactions than building out open-protocol enrollment from scratch — but it trades control and cross-surface reach (today: ChatGPT, Google Search AI Mode, Gemini app) for platform lock-in, the same walled-garden-vs-open-protocol trade-off named above. Don't let a vendor's GA announcement substitute for the catalog and schema hygiene work in Steps 3–4; a vendor-run agent still recommends off the same underlying feed quality.
 
 ## Example Output
 
