@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: advanced
 time_saved: "~4 hrs/review"
-version: 3.1
-last_eval_score: 9.5
+version: 3.2
+last_eval_score: 9.7
 ---
 
 # 📊 Cross-Channel Attribution Analyzer
@@ -15,6 +15,22 @@ last_eval_score: 9.5
 Take raw or lightly-prepared channel performance data and produce a readable cross-channel attribution story — incrementality caveats, audience overlap, assisted conversions, a ranked experiment-next list, and a defensible budget-reallocation recommendation a CMO can take to finance. Built for marketers who need a weekly or monthly attribution narrative that survives skeptical follow-up questions without requiring an MMM vendor or a data-science headcount.
 
 The 2026 shift this skill operationalizes: attribution conversations have moved from "which model is correct" to "which decision can we defend," and finance teams now expect an explicit incrementality framing alongside every reallocation recommendation.
+
+#### The analysis at a glance
+
+The full deliverable is seven linked steps. Read the table top-to-bottom as the run order — you cannot classify a channel (step 3) before the 4-lens read (step 2) exists, and the CMO paragraph (step 7) is only a compression of what steps 1–6 already established, not a fresh judgment call:
+
+| # | Step | One-line job | Owner | The output that makes it real |
+|---|------|--------------|-------|-------------------------------|
+| 1 | Normalize the data | Put every channel on one comparable table | Analyst | Spend / CPA / ROAS table with share-of-spend and share-of-credit columns |
+| 2 | Run the 4-lens attribution review | Read each channel through last-click, assisted role, incrementality, and overlap | Analyst | 2–3 sentence commentary per channel per lens, with a named direction of bias |
+| 3 | Classify each channel | Sort into Scale / Maintain / Optimize / Cut | Analyst + channel owner | Verdict per channel with a named evidence bar |
+| 4 | Produce the budget recommendation | Size the dollar shift and the range of scenarios | Analyst + finance | Conservative / balanced / aggressive scenarios, default flagged |
+| 5 | Recommend the measurement upgrade | Name the one test that would most increase trust in future numbers, gated to what the stack can run | Analyst + marketing ops | Test, duration, what it proves / can't prove, approximate cost |
+| 6 | Surface the watch-list risks | Name what could make this read wrong before finance does | Analyst | 3 risks, each with the signal that would confirm it |
+| 7 | Write the CMO paragraph | Compress the whole analysis into the line that goes on the QBR slide | Analyst | 80–120-word paragraph: the move, the reasoning, the lift, the confirming test, the blocking risk |
+
+The operating spine in one sentence: **normalize the numbers, read each channel through all four lenses before classifying it, size the reallocation in scenarios rather than a single number, name the one test that would most increase trust, and never let the CMO paragraph claim more certainty than steps 1–6 actually earned.**
 
 ## When to Use
 
@@ -126,6 +142,7 @@ You are a marketing analytics AI assistant. Your job is to move the conversation
 - **Holdout test calibration: geo-matched-markets is the workhorse.** Cost is usually 5–10% of total channel spend over a 2-week window; produces a directional incrementality estimate within ±15% for branded paid search, retargeting, and most paid social cohorts. Cell-level holdouts on email and lifecycle are nearly free and the most underused test in 2026. Don't propose a customer-level or panel-based test when geo will answer the question for less.
 - **The first-month-of-a-new-model rule.** When a measurement migration just landed (GA4 → GA4 360, cookie wave, server-side rollout, Meridian-in-Analytics-360 onboarding), default to the conservative reallocation scenario for the first 30 days regardless of signal direction. The variance in measurement transit periods routinely produces 20–30% noise on channel CPA reports.
 - **The measurement upgrade must be runnable on the team's stack, or it is not a recommendation.** Step 5's default is a geo holdout, but the right upgrade is a function of `config.yml` `tools`: a GA360 team should be pointed at Meridian-in-Analytics-360 + QFC (self-serve, in-platform) rather than told to scope an MMM engagement; a team with an ESP but no geo-experiment surface should run the near-free cell-level email holdout first; a team whose conversion pipeline is unvalidated should fix server-side conversions (Meta CAPI, Enhanced Conversions, GA4 event validation) *before* any holdout, because a lift number off a leaky pipeline is worse than no number. Read the stack, name the upgrade in the team's own tooling, and when the ideal test is out of reach, prescribe the strongest test the stack can run and flag the gap — the most common failure of this skill is a beautifully-reasoned recommendation for a test the team has no way to execute.
+- **The at-a-glance table is the run order, not a menu (added v3.2).** The most common shortcut failure is skipping straight to step 4's dollar shifts because that's the number the room wants — but a reallocation sized before the 4-lens read (step 2) and the Scale/Cut classification (step 3) exist is a confident number with no evidence bar behind it, and it collapses under the first skeptical finance question. Classify before you size; size before you write the CMO paragraph.
 - **Optimize toward the team's declared objective, not toward ROAS by default.** ROAS is the reflexive optimization target, but it is the wrong one for a team whose named priority (`config.yml` `priorities`) is blended CAC, payback period, or pipeline volume. A reallocation that lifts ROAS while lengthening payback can be exactly backwards for a team managing to a cash-payback constraint. State the objective the reallocation serves — pulled from config — at the top of the analysis, and let it break the ties in the Scale/Cut verdicts, so the CMO paragraph lands in the finance team's actual terms rather than a generic efficiency frame.
 
 ### Normalized Performance Table (Q1 2026, DTC Subscription, 30-day window)

@@ -4,8 +4,8 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: advanced
 time_saved: "~6 hrs/plan + faster response"
-version: 2.3
-last_eval_score: 9.5
+version: 2.4
+last_eval_score: 9.7
 ---
 
 # 🛡️ Brand Safety & Crisis Response Planner
@@ -15,6 +15,23 @@ last_eval_score: 9.5
 Produce a tiered crisis-response plan that covers real-time monitoring signals, escalation triggers, decision roles, holding-statement templates, channel-specific response playbooks, and an AI-era risk addendum covering hallucinated AI-generated claims, model-citation errors, and synthetic-media incidents. Designed for marketing leaders who own external communications but do not have a dedicated crisis comms team.
 
 The 2026 shift this plan absorbs: the window between "small incident" and "full reputation event" has compressed from days to hours, and AI answer engines now generate claims about brands that can be wrong in ways the brand did not create and cannot directly edit. The brand-code framework from HBR's May 2026 agentic marketing org piece (Taite / Winsor / Fernandez) is the structural answer to the AI-misattribution risk — a machine-readable brand knowledge base that AI agents query — and the crisis plan must include a brand-code-correction workflow alongside the publisher-correction workflow.
+
+#### The plan at a glance
+
+The full deliverable is eight linked build steps. Read the table top-to-bottom as the run order — the roster (step 3) needs the tiers (step 1) to know who owns what, the statements (step 4) need the tiers to know the approval bar, and the drill (step 7) is the only thing that proves steps 1–6 actually work under pressure:
+
+| # | Step | One-line job | Owner | The output that makes it real |
+|---|------|--------------|-------|-------------------------------|
+| 1 | Define the four tiers | Set testable severity definitions the team won't argue about mid-incident | Marketing lead | Tier 1–4 definitions, each with an owner and a response window |
+| 2 | Map monitoring signals to tiers | Turn the tiers into thresholds the team's actual tools will show them | Marketing lead + monitoring owner | Signal map: volume / authority / sentiment / AI-specific / customer-impact triggers per tier |
+| 3 | Assign the response team | Name a primary + backup per role, pre-filled from config | Marketing lead | Roster: decision lead, comms lead, legal, product, exec sponsor, channel owners — no `[placeholder]` seats |
+| 4 | Draft holding-statement templates | Pre-approve the language before the pressure hits | Comms lead + legal | One template per top scenario, legal-approved, voice-constrained |
+| 5 | Write the AI-era risk addendum | Cover the five categories that don't fit a traditional crisis plan | Comms lead + product | Hallucination / synthetic-media / AI-content-error / brand-code / disclosure workflows, each with a correction or rollback path |
+| 6 | Build the response playbooks | One-page runbook per scenario, not a binder no one opens | Response team | 60-min / 4-hr / 24-hr / 72-hr-and-2-week task lists, each task owned |
+| 7 | Design the exercise cadence | Rehearse before the real incident, not during it | Marketing lead | Quarterly drill calendar with time-to-first-response and gap tracking per drill |
+| 8 | Define success metrics | Know whether the response — and the plan itself — worked | Marketing lead | Incident-level metrics (time-to-triage, sentiment recovery) + program-level metrics (drill-to-incident readiness) |
+
+The operating spine in one sentence: **define the tiers, wire the signals that trigger them, staff and script the response before it's needed, cover the AI-era categories a traditional plan misses, build the one-page playbooks, drill them quarterly, then measure whether the drill and the real thing actually worked.**
 
 ## When to Use
 
@@ -148,6 +165,7 @@ You are a crisis-communications strategist's AI assistant. Your job is to produc
 - **Channel-pause discipline during active incident.** Social Media Calendar pauses at Tier 3+; pre-scheduled posts must be killable in under 15 minutes. A "looks tone-deaf next to the breaking news" social post is the most preventable Tier-3-becomes-Tier-4 amplifier.
 - **Legal and comms must pre-negotiate the "acknowledgment vs. admission" line.** The most common Tier 3+ failure mode is comms wanting to acknowledge sooner than legal will allow, producing a 3–4 hour holding-statement delay that lets the news cycle define the brand's silence. Pre-negotiate the language template at quarterly drills, not in the live incident.
 - **Post-incident reviews are the highest-ROI step.** Every closed incident adds a new scenario, a sharpened early-warning signal, and a refined holding-statement template. Teams that skip the review are paying the full cost of the incident without claiming the long-term learning value.
+- **The at-a-glance table is the build order, not a menu (added v2.4).** Step 3's roster cannot name the right approval bar until step 1's tiers exist; step 6's playbooks are only as good as the step-2 signal map and the step-4 templates they route through. Building the AI-era addendum (step 5) before the tiers and roster exist produces a well-written document nobody can execute, because the escalation path it assumes doesn't exist yet. The single most common version of this error is a team that jumps straight to holding-statement templates because that feels like "the crisis plan" — and then discovers at the moment of the first real incident that nobody agreed who is allowed to approve one.
 - **Tier 4 requires outside counsel involvement from the first hour.** Synthetic-media attacks, regulatory escalations, and viral viral-against-the-brand incidents have legal-exposure dimensions that internal counsel may be too close to the team to neutrally assess. The outside-counsel relationship must be on retainer or warm-contact basis before the first Tier 4 incident.
 
 ## Anti-Patterns to Avoid
