@@ -4,8 +4,8 @@ category: _shared
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~20 min/meeting"
-version: 2.1
-last_eval_score: 9.0
+version: 2.2
+last_eval_score: 9.4
 ---
 
 # 📝 Meeting Summarizer (Marketing)
@@ -20,7 +20,21 @@ Turn raw meeting notes or a transcript into a structured, send-ready summary cal
 
 Use this skill right after any marketing meeting where someone will ask "what did we decide?" or "who's doing what?": campaign kickoffs, creative/copy reviews, weekly status calls, agency syncs, QBRs, launch readiness checks, retros, and cross-functional planning. Especially valuable when the meeting had no dedicated note-taker and you're working from messy bullets or an auto-transcript. Pairs with `email-drafter.md` (turn the summary into the follow-up email) and feeds briefs into `creative-brief-generator.md` and `social-media-calendar.md` when the meeting set creative or content direction.
 
-## Required Input
+## Summaries at a Glance
+
+Identify the meeting type, then use its row to decide what leads the summary. The four standard blocks (Decisions / Action Items / Open Questions / Key Context) always follow.
+
+| Meeting type | Lead with | Type-specific section | Most common miss |
+|---|---|---|---|
+| Campaign kickoff | Launch date + success metric | Workstream owners; channel mix; first slip-risk dependency | No single owner per workstream |
+| Creative review | Overall verdict + re-review date | Asset-by-asset verdict table with revision requests | Revision asks paraphrased into vagueness |
+| Client / stakeholder status | Progress vs. the client's goal | Decisions needed *from the client* | Internal candor leaking into the recap |
+| QBR | Performance vs. target, by channel | Scorecard + reallocation + next-quarter priorities | Numbers that don't match the performance report |
+| Sprint planning | Committed scope + dates | Sprint backlog with owners | Stretch items recorded as commitments |
+| Retro | The one change the team will make | Keep / Stop / Start with an owner on each Start | "Start" items with no owner |
+| Agency sync | Deliverables due + any scope change | Deliverable tracker (asset, due, status) | Scope changes agreed verbally, never recorded |
+| Launch readiness | Go / no-go and who called it | Readiness checklist with blockers | Conditional go recorded as unconditional |
+
 
 Input is split into a **Required Core** (Pass 1 — the summary ships on this) and **Optional Enrichment** (Pass 2 — tunes format and routing). Each Optional item has a default the skill applies and names when omitted.
 
@@ -65,6 +79,8 @@ You are a marketing program manager's AI assistant. Your job is to convert a noi
    - **QBR:** Performance vs. target by channel/program, what's being reallocated, and the next-quarter priorities with owners.
    - **Retro:** Keep / stop / start, with an owner on each "start."
 
+   **Auto-transcript hygiene (Zoom, Teams, Meet, Otter, Gong, Fathom and similar).** Transcripts mangle exactly the words marketers care about: brand and campaign names, competitor names, channel jargon ("P Max", "row ass", "see pack"), and numbers. Normalize names to `config.yml` conventions; mark any number, date, or dollar figure that came only from the transcript as "(per transcript — confirm)"; when speaker labels are generic ("Speaker 2"), attribute actions by role only if the context makes it unambiguous, otherwise "owner TBD." Watch for **reversals** — a decision made at minute 10 and walked back at minute 45 is recorded once, in its final form, with a note that it changed. Drop small talk and anything said "off the record."
+
 4. **Pull launch-critical and budget items to the top.** A slipped launch date or a budget change is the thing leadership scans for; if either appeared, it leads the summary regardless of when it came up in the meeting.
 
 5. **Tighten and route.** Cut filler and digressions. If an audience was specified, format for it (client version = decisions + next steps + ask, no internal debate). End with a one-line "owner roll-up": each person and the count of actions they now own, so nobody's commitments hide in the body.
@@ -87,6 +103,33 @@ You are a marketing program manager's AI assistant. Your job is to convert a noi
 - **Dependencies are the slip risk.** "Waiting on legal" / "blocked on the agency's asset" is the line that predicts a missed date — surface every cross-team dependency explicitly.
 - **Use the team's campaign names.** A summary that calls a campaign by three different informal names creates downstream confusion; normalize to the `config.yml` convention.
 
+## Example Output
+
+**Input (auto-transcript excerpt, creative review):** "...ok so for the fall promo, hero A is approved but legal needs the 'clinically proven' line gone... Speaker 2: B is dead, too close to last year... Maya: I'll have the resized versions over by Wednesday... Speaker 3: can we still hit the 14th? ...probably, if legal turns it around by Friday..."
+
+**Fall Promo — Creative Review** · Inferred type: creative review · Date: [confirm] · Attendees: Maya (agency design), others unlabeled
+
+**⚠ Launch date at risk:** Oct 14 launch holds only if Legal clears the revised hero copy by Friday.
+
+**Asset verdicts**
+| Asset | Verdict | Revision request | Re-review |
+|---|---|---|---|
+| Hero A | Approved with changes | Remove "clinically proven" claim (Legal) | Legal, by Fri |
+| Hero B | Rejected | Too similar to last year's fall creative | — |
+
+**Decisions Made** — Hero A is the fall promo hero, pending the claim removal; Hero B is retired.
+
+**Action Items**
+- Maya — deliver resized Hero A variants — Wed
+- owner TBD — remove "clinically proven" line and resubmit to Legal — before Fri
+- owner TBD — confirm with Legal they can turn the review around by Fri — date TBD
+
+**Open Questions & Blockers** — Legal turnaround is the dependency the Oct 14 date rests on.
+
+**Key Context** — The launch date (Oct 14) came from the transcript only (per transcript — confirm).
+
+**Needs assignment:** two actions have no owner. **Owner roll-up:** Maya 1 · unassigned 2.
+
 ## Anti-Patterns to Avoid
 
 - **One undifferentiated paragraph** mixing decisions, actions, and musings — use the four blocks
@@ -97,6 +140,8 @@ You are a marketing program manager's AI assistant. Your job is to convert a noi
 - **Dropping cross-team dependencies** — these are the slip risks; name who's waiting on whom
 - **Inconsistent campaign/project names** — normalize to the `config.yml` convention
 - **Summarizing every digression** — a summary that's as long as the meeting saved no one any time
+- **Trusting transcript numbers and names as-is** — auto-transcripts garble brand names, jargon, and figures; flag them for confirmation
+- **Recording a reversed decision twice** — keep the final version and note that it changed
 
 ## Integration Notes
 

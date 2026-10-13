@@ -4,8 +4,8 @@ category: _shared
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~15 min/review"
-version: 2.1
-last_eval_score: 8.9
+version: 2.2
+last_eval_score: 9.4
 ---
 
 # ⭐ Review Responder (Marketing / Brand Reputation)
@@ -22,7 +22,18 @@ A public review response is permanent, prospect-facing marketing collateral — 
 
 Use this skill when a new review lands, when a review has sat un-responded past the platform's expectation window (~48–72 hrs for most), when a negative review needs a reply that doesn't pour fuel on it, when a backlog needs clearing on a profile the brand just claimed, or when a glowing review is a chance to deepen advocacy. Pairs with `email-drafter.md` (the private follow-up to a dissatisfied reviewer), `customer-review-insight-miner.md` (the aggregate themes these reviews reveal), and `brand-safety-crisis-planner.md` (when a review is the leading edge of a larger reputation event).
 
-## Required Input
+## Replies at a Glance
+
+Find the review's band, then follow the row. The Process below explains each column.
+
+| Band | Posture | Length | What the reply must do | Can it post without a human? |
+|---|---|---|---|---|
+| 5★ praise | Thank-and-amplify | 60–110 words | Echo the specific thing they loved; one human line; soft advocacy seed, no sales CTA | Yes, after the Safety Layer passes |
+| 4★ mixed-positive | Acknowledge-and-own | 110–150 words | Thank for what worked; name the gap; say what changed or is changing | Yes, unless it promises a fix date |
+| 3★ lukewarm | Clarify-and-invite | 100–140 words | Take it seriously; gently correct any factual misread; offer a concrete better path | Yes, unless it corrects a fact you haven't confirmed |
+| 1–2★ negative with specifics | Resolve-offline | 120–180 words | Own the operational failure; move private with a real contact; no unauthorized remedy | **No** — confirm facts and remedy first |
+| Hostile / defamatory / harm, safety, or legal claim / PII | Decline-to-engage + escalate | Short holding reply or none | Stay calm and factual; report via the platform's abuse/fake process; escalate | **No** — Legal/Comms first |
+
 
 Input is split into a **Required Core** (Pass 1 — the reply ships on these) and **Optional Enrichment** (Pass 2 — tunes accuracy, voice, and approval routing). Each Optional item has a default the skill applies and names when omitted.
 
@@ -59,6 +70,8 @@ You are a brand-reputation specialist. Your job is to protect and build the bran
 **Process:**
 
 0. **Determine the pass and self-classify.** If only platform + review text are supplied, run **Pass 1 (Fast Reply)**: infer the sentiment band, recommend the posture, label the output "Fast Reply — confirm sentiment, posture, and facts before posting," and for any inferred 1–2★ review refuse to assert unverified facts and raise the human-review flag. If Optional Enrichment is supplied, run **Pass 2 (Tuned Reply)** with the brand's stated facts, posture, offer, and voice. The Mandatory Safety Layer (Step 4) always runs.
+
+   **Batch mode (backlogs and weekly sweeps).** When more than one review is supplied, do not stop to ask about each. First output a triage table — one row per review: platform, rating, band, posture, "ready to post" or "held for human" (and why) — then the replies in that order. Draft every reply, including the held ones, so the approver edits rather than writes. Group held replies at the end with their flags, and list any theme that appears in two or more negatives for hand-off to `customer-review-insight-miner.md`. This keeps the human gate on exactly the replies that need it, and lets 4–5★ replies ship the same day.
 
 1. **Read for the real signal.** Negative reviews bury the actual issue inside emotion — find the 1–2 concrete complaints (a bug, a delay, a billing surprise, a support gap) and address those specifically, not the emotional frame. Positive reviews bury the 1–2 things the brand did that actually mattered — echo those specifically rather than a generic "thanks for the kind words."
 
@@ -111,6 +124,22 @@ You are a brand-reputation specialist. Your job is to protect and build the bran
 - **Don't out a private customer.** Even if the reviewer posted their order number or condition, the brand never restates private data publicly.
 - **Feed the negatives upstream.** A single negative is a reply; a pattern of the same negative is a product/ops problem. Route recurring themes to `customer-review-insight-miner.md`.
 
+## Example Output
+
+**Example 1 — Google Business Profile, 5★:** "Ordered the starter kit as a gift, it arrived in two days and the handwritten note was such a nice touch. — Priya"
+
+*Band: 5★ praise · Posture: thank-and-amplify · Ready to post*
+
+> Priya, thank you! We're so glad the starter kit landed in time for your gift — and that the handwritten note made it feel personal. Our packing team writes every one of those, so we'll make sure they see this. If your friend gets hooked, the refill subscription keeps the kit stocked without anyone having to remember. — The Acme team
+
+**Example 2 — G2, 2★:** "Reporting dashboard is great but the HubSpot sync broke twice last month and support took 4 days to respond. Considering alternatives."
+
+*Band: 1–2★ negative with specifics · Posture: resolve-offline · **Held for human** — confirm the sync incident dates and that a support SLA can be stated*
+
+> Thank you for the candid review, and for the kind words about reporting. Two broken HubSpot syncs in a month plus a four-day wait for help is not the experience we want for any team relying on that data, and we're sorry it happened. Our integrations team has [confirm: shipped a fix for the sync failure on DATE / is actively working on it], and our support lead will reach out directly today to check your connection and walk through what changed. If you'd like to reach us first, support@acme.com goes straight to that team. We'd value the chance to earn back your confidence before you decide.
+
+*Private action:* support lead emails the reviewer's account contact within 24 hours; checks sync logs; offers a working session; remedy (e.g., service credit) only if CS leadership authorizes. Log "integration reliability" and "support response time" to the insight miner.
+
 ## Anti-Patterns to Avoid
 
 - **Defensive or sarcastic replies to negative reviews** — every word is read by prospects; never argue in public
@@ -122,6 +151,8 @@ You are a brand-reputation specialist. Your job is to protect and build the bran
 - **Weak, vague B2B responses** — software buyers read these as a quality signal; be specific
 - **Treating reviews as one-offs** — recurring negatives are a product signal to route upstream
 - **Soliciting review updates on platforms that prohibit it** (Yelp, Amazon) — know the platform rule
+- **Holding every reply for approval in a backlog** — gate the negatives and harm claims; let checked 4–5★ replies ship
+- **Writing or posting reviews on the brand's own behalf, or suppressing negatives** — the FTC's Consumer Reviews and Testimonials rule (effective Oct 2024) makes fake reviews and review suppression directly penalizable; this skill only replies
 
 ## Integration Notes
 
