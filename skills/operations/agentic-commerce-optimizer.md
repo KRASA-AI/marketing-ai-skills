@@ -4,7 +4,7 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~6 hrs/audit"
-version: 1.2
+version: 1.3
 last_eval_score: 9.5
 ---
 
@@ -126,6 +126,7 @@ You are an agentic commerce optimization strategist's AI assistant. Your job is 
 - **The agent layer is changing weekly.** Mark the surface map with a "verified-on" date and re-verify before any quarterly readout — protocol terms, walled-garden inclusion criteria, and surface availability shift faster than any other layer in marketing technology in 2026.
 - **Scope the protocol map to the team's real stack, not the full catalog of standards (sharpened v1.1).** The protocol-readiness map is only useful if it's filtered through `config.yml` `tools`: a Shopify + Stripe shop and a custom-platform shop face completely different effort curves for the same enrollment, and recommending an enrollment the declared stack can't reach without a re-platform is a non-actionable line item. Pre-fill the reachable protocols from the config stack, then rank within that set. Likewise, judge the price/speed gap against the team's declared `pricing` before escalating to merchandising — a "loses on price" finding means something different for a premium-positioned brand than a value one.
 - **Vendor-run agent platforms are a build-vs-buy decision, not an extra protocol row (new v1.2).** Salesforce's Agentforce Commerce is a different animal from ACP/UCP/x402: it is a vendor-operated agent that reads your Commerce Cloud catalog directly rather than a protocol you implement against. For a brand already on Salesforce Commerce Cloud, evaluating Agentforce Commerce belongs in Step 1 as a lower-effort path to agent-mediated transactions than building out open-protocol enrollment from scratch — but it trades control and cross-surface reach (today: ChatGPT, Google Search AI Mode, Gemini app) for platform lock-in, the same walled-garden-vs-open-protocol trade-off named above. Don't let a vendor's GA announcement substitute for the catalog and schema hygiene work in Steps 3–4; a vendor-run agent still recommends off the same underlying feed quality.
+- **Check that your own fraud stack isn't declining the agents (new v1.3).** Agent-placed orders look anomalous to legacy fraud and bot rules — a new device, no browsing session, a tokenized card, a checkout completed in seconds — so a brand can do all the catalog and protocol work and still lose agent orders at the payment-risk layer without anyone in marketing seeing it. Fraud vendors have started shipping agent-identity signals that recognize assistant-placed orders and tie them back to a known consumer (Riskified's Agent Identity Risk Intelligence, October 2026). In the audit, ask the payments/risk owner for the decline rate on agent-surfaced orders versus standard web orders; if it is materially higher or simply unknown, that is a top-of-list intervention ahead of any further protocol enrollment. Context for sizing the opportunity: mid-market retailers (Newegg, via UCP in the Gemini app and Google AI Mode) are now taking checkout inside agent surfaces, and roughly one in six US adults say they would let an AI complete a purchase for them (Simon-Kucher holiday study, 2026).
 
 ## Example Output
 
